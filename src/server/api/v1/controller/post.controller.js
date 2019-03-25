@@ -55,7 +55,6 @@ class PostController {
         }
         post.id = uuidv4();
         posts.push(post);
-        console.log(posts);
         return res.status(201).json(post);
     }
 
