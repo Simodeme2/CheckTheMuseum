@@ -29,6 +29,15 @@ Under the root execute:
 yarn install
 ```
 
+## Built With
+
+Node.js
+Express
+
+## Authors
+
+Philippe De Pauw - Waterschoot | [drdynscript](https://github.com/drdynscript)
+
 ## License
 
 This project is licensed under the Apache License - see the LICENSE file for details
