@@ -24,7 +24,7 @@ class PostController {
         if(posts === undefined || posts === null) {
             return handleAPIError(404, `Type Posts not found!`, next);
         }
-        return res.json(posts);
+        return res.status(200).json(posts);
     }
 
     // Show specific model by id
@@ -36,7 +36,7 @@ class PostController {
         if(item === undefined || item === null) {
             return handleAPIError(404, `Post with id: ${id} not found!`, next);
         }
-        return res.json(item);
+        return res.status(200).json(item);
     }
 
     // ViewModel for Insert / Create
@@ -44,7 +44,7 @@ class PostController {
         const vm = {
             "categories": []
         };
-        return res.json(vm);
+        return res.status(200).json(vm);
     }
 
     // Store / Create the new model
@@ -91,7 +91,7 @@ class PostController {
         }
         post.id = item.id;
         posts[idx] = post;
-        return res.json(post);
+        return res.status(200).json(post);
     }
 
     // Delete / Destroy the model
@@ -104,7 +104,7 @@ class PostController {
             return handleAPIError(404, `Post with id: ${id} not found!`, next);
         }
         posts = posts.filter(obj => obj.id !== id);
-        return res.json({ 'message': `Successful deleted the Post with id: ${id}!`});
+        return res.status(200).json({ 'message': `Successful deleted the Post with id: ${id}!`});
     }
 }
 export default PostController;
