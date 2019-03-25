@@ -2,7 +2,7 @@
 Import the internal libraries:
 - PostController
 */
-import PostController from '../controller/post.controller';
+import { PostController } from '../controller';
 const postController = new PostController();
 
 const initializeEndpoints = (parentRouter) => {

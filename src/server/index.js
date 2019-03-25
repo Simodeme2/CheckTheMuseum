@@ -13,6 +13,7 @@ Import the external libraries:
 - body-parser
 - cors
 - path
+- ejs
 */
 import http from 'http';
 import https from 'https';
@@ -46,7 +47,7 @@ const morganMiddleware = morgan((tokens, req, res) => {
     ].join(' ');
   });
 
-// CORS options
+// Cors options
 const corsOption = {
     origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -62,7 +63,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb', keepExtensions: true }));
 app.set('views', path.join(__dirname, 'views')); // Set the default views directory to views folder
 app.set('view engine', 'ejs'); // Set the view engine to ejs
-app.use('/static', express.static(path.join(__dirname, '.'))); // Set the assets folder as static
+app.use('/static', express.static(path.join(__dirname, 'assets'))); // Set the assets folder as static
 app.use('/api/v1', apiV1Router);
 
 // Last route is 404
@@ -82,10 +83,15 @@ app.use((error, req, res, next) => {
             timestamp: new Date().getTime()
         }
     }
+    
     if(req.xhr) {
         res.json(obj);
     } else {
-        res.send('Ocharme');
+        if(error.status === 404) {
+            res.render('404', obj) 
+        } else {
+            res.render('error', obj)
+        }
     }
 });
 
