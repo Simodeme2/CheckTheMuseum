@@ -94,13 +94,13 @@ class PostController {
     // Delete / Destroy the model
     destroy = (req, res, next) => {  
         const id = req.params.id; 
-        const item = mockDb.posts.find((obj) => {
+        const idx = mockDb.posts.findIndex((obj) => {
             return obj.id === id;
         });
-        if(item === undefined || item === null) {
+        if(idx === -1) {
             return handleAPIError(404, `Post with id: ${id} not found!`, next);
-        }
-        mockDb.posts = mockDb.posts.filter(obj => obj.id !== id);
+        }   
+        mockDb.posts.splice(idx, 1);
         return res.status(200).json({ 'message': `Successful deleted the Post with id: ${id}!`});
     }
 }
