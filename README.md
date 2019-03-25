@@ -31,8 +31,8 @@ yarn install
 
 ## Built With
 
-Node.js
-Express
+- Node.js
+- Express
 
 ## Authors
 
