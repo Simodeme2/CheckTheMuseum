@@ -12,6 +12,7 @@ Import the external libraries:
 - chalk
 - body-parser
 - cors
+- path
 */
 import http from 'http';
 import https from 'https';
@@ -20,6 +21,7 @@ import morgan from 'morgan';
 import chalk from 'chalk';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import path from 'path';
 
 /*
 Import internal libraries
@@ -44,11 +46,23 @@ const morganMiddleware = morgan((tokens, req, res) => {
     ].join(' ');
   });
 
+// CORS options
+const corsOption = {
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    exposedHeaders: ['x-auth-token']
+};
+
 // Create the express application
 const app = express();
 app.use(morganMiddleware);
+app.use(cors(corsOption));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb', keepExtensions: true }));
+app.set('views', path.join(__dirname, 'views')); // Set the default views directory to views folder
+app.set('view engine', 'ejs'); // Set the view engine to ejs
+app.use('/static', express.static(path.join(__dirname, '.'))); // Set the assets folder as static
 app.use('/api/v1', apiV1Router);
 
 // Last route is 404
