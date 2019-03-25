@@ -29,6 +29,22 @@ Under the root execute:
 yarn install
 ```
 
+### Running the Express-server
+
+Under the root execute:
+
+```
+yarn server-start
+```
+
+### Running the tests for Express-server
+
+Under the root execute:
+
+```
+yarn server-test
+```
+
 ## Built With
 
 - Node.js
