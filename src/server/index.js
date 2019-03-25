@@ -102,3 +102,6 @@ const httpServer = http.Server(app);
 httpServer.listen(config.nodePort, config.nodeHostname, () => {
     console.log(`Server is running at http://${config.nodeHostname}:${config.nodePort} !`);
 });
+
+// Export our app for testing purposes
+export default app;
