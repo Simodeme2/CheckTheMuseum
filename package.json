@@ -28,11 +28,12 @@
     "@babel/preset-env": "^7.4.2",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
+    "cross-env": "^5.2.0",
     "mocha": "^6.0.2",
     "nodemon": "^1.18.10"
   },
   "scripts": {
-    "server-test": "NODE_SERVER_PORT=8081 mocha ./src/server/api/v1/tests -name '*.test.js' --require @babel/register --recursive --exit",
-    "server-start": "nodemon src/server/index.js --exec babel-node"
+    "server-test": "cross-env NODE_SERVER_PORT=8081 mocha ./src/server/api/v1/tests -name '*.test.js' --require @babel/register --recursive --exit",
+    "server-start": "cross-env nodemon src/server/index.js --exec babel-node"
   }
 }
