@@ -27,7 +27,7 @@ import cors from 'cors';
 import path from 'path';
 import mongoose from 'mongoose';
 import swaggerJsdoc from 'swagger-jsdoc';
-import swaggerUI from 'swagger-ui-express';
+import swaggerUi from 'swagger-ui-express';
 
 /*
 Import internal libraries
@@ -97,12 +97,27 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb', keepExtensions: true }));
 app.set('views', path.join(__dirname, 'views')); // Set the default views directory to views folder
 app.set('view engine', 'ejs'); // Set the view engine to ejs
-app.use('/static', express.static(path.join(__dirname, 'assets'))); // Set the assets folder as static
+if (config.nodeEnvironment === 'Production') {
+    app.use(express.static(path.join(__dirname, 'client')));
+} else {
+    app.use(express.static(path.join(__dirname, '/../client/build')));
+} 
+app.use('/static', express.static(path.join(__dirname, 'assets')));
 app.use('/api/v1', apiV1Router);
-app.use('/api/v1/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
-app.use('/swagger.json', (req, res) => {
-    res.setHeader('Content-Type', 'applications/json');
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+app.get('/swagger.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpecs);
+});
+app.get('/docs', (req, res) => {
+    res.render('redoc', {});
+});
+app.get('*', (req,res) => {
+    if (config.nodeEnvironment === 'Production') {
+        res.sendFile(path.join(__dirname + './client/index.html'));
+    } else {
+        res.sendFile(path.join(__dirname + '/../client/build/index.html'));
+    }    
 });
 
 // Last route is 404

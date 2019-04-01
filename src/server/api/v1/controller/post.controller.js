@@ -21,31 +21,32 @@ class PostController {
     index = async (req, res, next) => {
         try {
             const posts = await Post.find()
-                .sort( { created_at: -1 })
+                .sort( { created_at: -1 } )
                 .exec();
 
             if(posts === undefined || posts === null) {
-                throw new APIError(404, `Collection for Post not found!`);
+                throw new APIError(404, `Collection for posts not found!`);
             }
             res.status(200).json(posts);
-        } catch(err) {
-            return handleAPIError(err.status || 500, err.message || `Some error occured when retrieving the posts!`, next);
-        }   
-    }
+        }
+        catch(err) {
+            return handleAPIError(500, err.message || 'Some error occurred while retrieving posts', next);
+        }
+    };
 
     // Show specific model by id
-    show  = async (req, res, next) => { 
+    show = async (req, res, next) => { 
         try {
             const id = req.params.id;
             const item = await Post.findById(id).exec();
-
             if(item === undefined || item === null) {
-                throw new APIError(404, `Post width id: ${id} not found!`);
+                throw new APIError(404, `Post with id: ${id} not found!`);
             }
             res.status(200).json(item);
-        } catch(err) {
-            return handleAPIError(err.status || 500, err.message || `Some error occured when retrieving the posts!`, next);
-        }  
+        }
+        catch(err) {
+            handleAPIError(err.status || 500, err.message || 'Some error occurred while retrieving posts', next);
+        }
     }
 
     // ViewModel for Insert / Create
@@ -57,62 +58,71 @@ class PostController {
     }
 
     // Store / Create the new model
-    store = (req, res, next) => {        
-        let post = req.body;
-        if(post === undefined || post === null) {
-            return handleAPIError(400, `Could not create the Post, because the request is bad!`, next);
+    store = async (req, res, next) => {        
+        try {
+            const postCreate = new Post({
+                title: req.body.title,
+                synopsis: req.body.synopsis,
+                body: req.body.body
+            });
+            const post = await postCreate.save();
+            res.status(201).json(post);
+        } catch (err) {
+            handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
         }
-        post.id = uuidv4();
-        mockDb.posts.push(post);
-        return res.status(201).json(post);
     }
 
     // ViewModel for Edit / Update
-    edit = (req, res, next) => {
-        const id = req.params.id;
-        const item = mockDb.posts.find((obj) => {
-            return obj.id === id;
-        });
-        if(item === undefined || item === null) {
-            return handleAPIError(404, `Post with id: ${id} not found!`, next);
+    edit = async (req, res, next) => {
+        try {
+            const id = req.params.id; 
+            const post = await Post.findById(id).exec();
+        
+            if (!post) {
+                throw new APIError(404, `Post with id: ${id} not found!`);
+            } else {
+                const vm = {
+                    "post": post,
+                    "categories": []
+                }
+                return res.status(200).json(vm);
+            }
+        } catch (err) {
+            handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
         }
-        const vm = {
-            "post": item,
-            "categories": []
-        }
-        return res.status(200).json(vm);
     }
 
     // Update the model
-    update = (req, res, next) => {  
-        const id = req.params.id; 
-        const idx = mockDb.posts.findIndex((obj) => {
-            return obj.id === id;
-        });
-        if(idx === -1) {
-            return handleAPIError(404, `Post with id: ${id} not found!`, next);
-        }     
-        const item = mockDb.posts[idx]
-        let post = req.body;
-        if(post === undefined || post === null || post == {}) {
-            return handleAPIError(400, `Could not create the Post, because the request is bad!`, next);
+    update = async (req, res, next) => {  
+        try {
+            const id = req.params.id; 
+            const postUpdate = req.body;
+            const post = await Post.findOneAndUpdate({ _id: id }, postUpdate, {new: true }).exec();
+        
+            if (!post) {
+                throw new APIError(404, `Post with id: ${id} not found!`);
+            } else {
+                res.status(200).json(post);
+            }
+        } catch (err) {
+            handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
         }
-        post.id = item.id;
-        mockDb.posts[idx] = post;
-        return res.status(200).json(post);
     }
 
     // Delete / Destroy the model
-    destroy = (req, res, next) => {  
-        const id = req.params.id; 
-        const idx = mockDb.posts.findIndex((obj) => {
-            return obj.id === id;
-        });
-        if(idx === -1) {
-            return handleAPIError(404, `Post with id: ${id} not found!`, next);
-        }   
-        mockDb.posts.splice(idx, 1);
-        return res.status(200).json({ 'message': `Successful deleted the Post with id: ${id}!`});
+    destroy = async (req, res, next) => {  
+        try {
+            const id = req.params.id; 
+            const post = await Post.findOneAndRemove({ _id: id });
+        
+            if (!post) {
+                throw new APIError(404, `Post with id: ${id} not found!`);
+            } else {
+                res.status(200).json({ 'message': `Successful deleted the Post with id: ${id}!`});
+            }
+        } catch (err) {
+            handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
+        }
     }
 }
 export default PostController;

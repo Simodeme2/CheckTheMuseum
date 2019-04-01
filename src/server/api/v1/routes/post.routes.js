@@ -11,7 +11,7 @@ const initializeEndpoints = (parentRouter) => {
      * /api/v1/posts:
      *   get:
      *     summary: List all the posts
-     *     description: Returns a list of all the animals, optionally sorted
+     *     description: Returns a list of all the posts, optionally sorted
      *     tags:
      *       - posts
      *     responses:
