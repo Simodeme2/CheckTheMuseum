@@ -41,13 +41,12 @@ import { Seeder } from './api/v1/database';
 
 // Mongoose (MongoDb port)
 const mongoDbConnectionString = config.mongoDbConnectionstring;
-console.log(config.mongoDbConnectionstring);
 mongoose.connect(mongoDbConnectionString, {
     useNewUrlParser: true, useCreateIndex: true,
 });
 const db = mongoose.connection;
-db.on('error', () => { logger.log({ level: 'error', message: `MongoDb connection error`})});
-db.on('connected', () => { logger.log({ level: 'info', message: `MongoDb connected`})});
+db.on('error', () => { logger.log({ level: 'error', message: 'MongoDb connection error' }); });
+db.on('connected', () => { logger.log({ level: 'info', message: 'MongoDb connected' }); });
 
 // Morgan middleware
 const morganMiddleware = morgan((tokens, req, res) => {
@@ -64,14 +63,14 @@ const morganMiddleware = morgan((tokens, req, res) => {
         chalk.hex('#1e90ff')(tokens['user-agent'](req, res)),
         '',
     ].join(' ');
-  });
+});
 
 // Cors options
 const corsOption = {
     origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-    exposedHeaders: ['x-auth-token']
+    exposedHeaders: ['x-auth-token'],
 };
 
 // Swagger options
@@ -128,7 +127,7 @@ app.use((req, res, next) => {
 });
 
 // Global Application Error Handler
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
     res.status(error.status || 500);
     const obj = {
         error: {
@@ -154,7 +153,7 @@ const httpServer = http.Server(app);
 
 // Launch the http server: ip and port
 httpServer.listen(config.nodePort, config.nodeHostname, () => {
-    logger.log({ level: 'info', message: `Server is running at http://${config.nodeHostname}:${config.nodePort} !`});
+    logger.log({ level: 'info', message: `Server is running at http://${config.nodeHostname}:${config.nodePort} !` });
 });
 
 if (config.nodeEnvironment === 'Development') {

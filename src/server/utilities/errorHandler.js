@@ -8,4 +8,4 @@ export default class APIError extends Error {
 export const handleAPIError = (status, message, next) => {
     const error = new APIError(status, message);
     return next(error);
-}
+};

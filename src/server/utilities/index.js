@@ -4,5 +4,5 @@ import logger from './logger';
 export {
     APIError,
     handleAPIError,
-    logger
-}
+    logger,
+};

@@ -56,6 +56,13 @@ Under the root execute:
 yarn server:lint
 ```
 
+## API Specification
+
+### Urls
+
+- [Swagger Ui for Express](http://{your domain}:{your port]/api/v1/docs/)
+- [ReDoc](http://{your domain}:{your port]/docs/)
+
 ## Built With
 
 - Node.js
