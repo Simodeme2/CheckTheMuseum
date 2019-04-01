@@ -10,7 +10,7 @@ Import the internal libraries:
 - errorHandler
 */
 import * as mockDb from '../mocks';
-import { handleAPIError } from '../utilities';
+import { handleAPIError } from '../../../utilities';
 
 class PostController {
     constructor() {

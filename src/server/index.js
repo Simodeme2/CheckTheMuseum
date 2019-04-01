@@ -27,8 +27,10 @@ import path from 'path';
 /*
 Import internal libraries
 - apiV1Router
+- logger
 */
 import apiV1Router from './api/v1/routes';
+import { logger } from './utilities';
 
 // Morgan middleware
 const morganMiddleware = morgan((tokens, req, res) => {
@@ -100,7 +102,7 @@ const httpServer = http.Server(app);
 
 // Launch the http server: ip and port
 httpServer.listen(config.nodePort, config.nodeHostname, () => {
-    console.log(`Server is running at http://${config.nodeHostname}:${config.nodePort} !`);
+    logger.log({ level: 'info', message: `Server is running at http://${config.nodeHostname}:${config.nodePort} !`});
 });
 
 // Export our app for testing purposes
