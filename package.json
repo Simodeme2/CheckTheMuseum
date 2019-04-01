@@ -20,6 +20,9 @@
     "mongoose": "^5.4.20",
     "morgan": "^1.9.1",
     "path": "^0.12.7",
+    "slug": "^1.1.0",
+    "swagger-jsdoc": "^3.2.8",
+    "swagger-ui-express": "^4.0.2",
     "uuidv4": "^3.0.1",
     "winston": "^3.2.1"
   },

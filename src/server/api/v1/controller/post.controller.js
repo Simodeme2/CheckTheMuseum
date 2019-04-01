@@ -6,11 +6,11 @@ import uuidv4 from 'uuid/v4';
 
 /*
 Import the internal libraries:
-- * from mocks
+- * from database
 - errorHandler
 */
-import * as mockDb from '../mocks';
-import { handleAPIError } from '../../../utilities';
+import { Post } from '../database';
+import { APIError, handleAPIError } from '../../../utilities';
 
 class PostController {
     constructor() {
@@ -18,23 +18,34 @@ class PostController {
     }
 
     // List all the models
-    index = (req, res, next) => {
-        if(mockDb.posts === undefined || mockDb.posts === null) {
-            return handleAPIError(404, `Type Post not found!`, next);
-        }
-        return res.status(200).json(mockDb.posts);
+    index = async (req, res, next) => {
+        try {
+            const posts = await Post.find()
+                .sort( { created_at: -1 })
+                .exec();
+
+            if(posts === undefined || posts === null) {
+                throw new APIError(404, `Collection for Post not found!`);
+            }
+            res.status(200).json(posts);
+        } catch(err) {
+            return handleAPIError(err.status || 500, err.message || `Some error occured when retrieving the posts!`, next);
+        }   
     }
 
     // Show specific model by id
-    show  = (req, res, next) => { 
-        const id = req.params.id;
-        const item = mockDb.posts.find((obj) => {
-            return obj.id === id;
-        });
-        if(item === undefined || item === null) {
-            return handleAPIError(404, `Post with id: ${id} not found!`, next);
-        }
-        return res.status(200).json(item);
+    show  = async (req, res, next) => { 
+        try {
+            const id = req.params.id;
+            const item = await Post.findById(id).exec();
+
+            if(item === undefined || item === null) {
+                throw new APIError(404, `Post width id: ${id} not found!`);
+            }
+            res.status(200).json(item);
+        } catch(err) {
+            return handleAPIError(err.status || 500, err.message || `Some error occured when retrieving the posts!`, next);
+        }  
     }
 
     // ViewModel for Insert / Create

@@ -6,6 +6,20 @@ import { PostController } from '../controller';
 const postController = new PostController();
 
 const initializeEndpoints = (parentRouter) => {
+    /**
+     * @swagger
+     * /api/v1/posts:
+     *   get:
+     *     summary: List all the posts
+     *     description: Returns a list of all the animals, optionally sorted
+     *     tags:
+     *       - posts
+     *     responses:
+     *       200:
+     *         description: List of posts
+     *         schema:
+     *           type: array
+     */
     parentRouter.get('/posts', postController.index);
     parentRouter.get('/posts/create', postController.create)
     parentRouter.get('/posts/:id', postController.show);   

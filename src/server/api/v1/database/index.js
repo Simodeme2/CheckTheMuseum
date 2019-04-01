@@ -1,4 +1,4 @@
-import { Post } from './schemas/post.schema';
+import { Post } from './schemas/';
 import Seeder from './seeder';
 
 export {
