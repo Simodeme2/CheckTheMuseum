@@ -3,6 +3,7 @@
     "parser": "babel-eslint",
     "rules": {
       "indent": [ 2, 4 ],
-      "allowAfterThis": true
+      "allowAfterThis": true,
+      "prefer-default-export": false
     }
   }

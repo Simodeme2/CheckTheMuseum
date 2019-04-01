@@ -2,7 +2,6 @@
 Import the external libraries:
 - uuidv4
 */
-import uuidv4 from 'uuid/v4';
 
 /*
 Import the internal libraries:
@@ -21,7 +20,7 @@ class PostController {
             if (posts === undefined || posts === null) {
                 throw new APIError(404, 'Collection for posts not found!');
             }
-            res.status(200).json(posts);
+            return res.status(200).json(posts);
         } catch (err) {
             return handleAPIError(500, err.message || 'Some error occurred while retrieving posts', next);
         }
@@ -75,7 +74,7 @@ class PostController {
                 throw new APIError(404, `Post with id: ${id} not found!`);
             } else {
                 const vm = {
-                    post: post,
+                    post,
                     categories: [],
                 };
                 return res.status(200).json(vm);
@@ -86,7 +85,7 @@ class PostController {
     }
 
     // Update the model
-    update = async (req, res, next) => {  
+    update = async (req, res, next) => {
         const { id } = req.params;
 
         try {
@@ -95,9 +94,8 @@ class PostController {
 
             if (!post) {
                 throw new APIError(404, `Post with id: ${id} not found!`);
-            } else {
-                res.status(200).json(post);
             }
+            return res.status(200).json(post);
         } catch (err) {
             handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
         }

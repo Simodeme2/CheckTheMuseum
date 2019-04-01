@@ -56,6 +56,14 @@ Under the root execute:
 yarn server:lint
 ```
 
+#### Running the React-app
+
+Under the root execute:
+
+```
+yarn client:start
+```
+
 ## API Specification
 
 ### Urls
