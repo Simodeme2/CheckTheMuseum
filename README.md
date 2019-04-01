@@ -6,6 +6,7 @@ Template consists of:
 
 - Node.js
 - Express
+- React
 
 ## Getting Started
 
@@ -29,26 +30,37 @@ Under the root execute:
 yarn install
 ```
 
-### Running the Express-server
+### Scripts
+
+#### Running the Express-server
 
 Under the root execute:
 
 ```
-yarn server-start
+yarn server:start
 ```
 
-### Running the tests for Express-server
+#### Running the tests for Express-server
 
 Under the root execute:
 
 ```
-yarn server-test
+yarn server:test
+```
+
+#### Check eslint for the server
+
+Under the root execute:
+
+```
+yarn server:lint
 ```
 
 ## Built With
 
 - Node.js
 - Express
+- React
 
 ## Authors
 
