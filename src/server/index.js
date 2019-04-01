@@ -14,6 +14,7 @@ Import the external libraries:
 - cors
 - path
 - ejs
+- mongoose
 */
 import http from 'http';
 import https from 'https';
@@ -23,6 +24,7 @@ import chalk from 'chalk';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
+import mongoose from 'mongoose';
 
 /*
 Import internal libraries
@@ -31,6 +33,17 @@ Import internal libraries
 */
 import apiV1Router from './api/v1/routes';
 import { logger } from './utilities';
+
+// Mongoose (MongoDb port)
+const mongoDbConnectionString = config.mongoDbConnectionstring;
+console.log(config.mongoDbConnectionstring);
+mongoose.connect(mongoDbConnectionString, { 
+    useNewUrlParser: true,
+    useCreateIndex: true
+ });
+const db = mongoose.connection;
+db.on('error', () => { logger.log({ level: 'error', message: `MongoDb connection error` })});
+db.on('connected', () => { logger.log({ level: 'info', message: `MongoDb connected` })});
 
 // Morgan middleware
 const morganMiddleware = morgan((tokens, req, res) => {
