@@ -30,9 +30,11 @@ import mongoose from 'mongoose';
 Import internal libraries
 - apiV1Router
 - logger
+- Seeder
 */
 import apiV1Router from './api/v1/routes';
 import { logger } from './utilities';
+import { Seeder } from './api/v1/database';
 
 // Mongoose (MongoDb port)
 const mongoDbConnectionString = config.mongoDbConnectionstring;
@@ -117,6 +119,9 @@ const httpServer = http.Server(app);
 httpServer.listen(config.nodePort, config.nodeHostname, () => {
     logger.log({ level: 'info', message: `Server is running at http://${config.nodeHostname}:${config.nodePort} !`});
 });
+
+const seeder = new Seeder();
+seeder.seed();
 
 // Export our app for testing purposes
 export default app;
