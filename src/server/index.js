@@ -74,7 +74,9 @@ const corsOption = {
 
 // Create the express application
 const app = express();
-app.use(morganMiddleware);
+if(config.nodeEnvironment === 'Development') {
+    app.use(morganMiddleware);
+}
 app.use(cors(corsOption));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb', keepExtensions: true }));
@@ -120,8 +122,11 @@ httpServer.listen(config.nodePort, config.nodeHostname, () => {
     logger.log({ level: 'info', message: `Server is running at http://${config.nodeHostname}:${config.nodePort} !`});
 });
 
-const seeder = new Seeder();
-seeder.seed();
+if ( config.nodeEnvironment === 'Development' ) {
+    const seeder = new Seeder();
+    seeder.seed();
+};
+
 
 // Export our app for testing purposes
 export default app;
