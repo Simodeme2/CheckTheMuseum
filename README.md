@@ -1,4 +1,4 @@
-![React Coding]:(https://images.unsplash.com/photo-1552308995-2baac1ad5490?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80 "React Coding")
+![React Coding]:(https://cdn-images-1.medium.com/max/2600/1*qXcjSfRj0C0ir2yMsYiRyw.jpeg "React Coding")
 
 # NMD MERN Template
 
