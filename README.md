@@ -56,6 +56,8 @@ Under the root execute:
 yarn start:all
 ```
 
+The React-client must be build in order to visit the default route: `http://{your domain}:{your port}/`. Run `yarn client:build` to create a `build` folder under the root of the `client` folder.
+
 #### Running the tests for Express-server
 
 Under the root execute:
@@ -78,6 +80,24 @@ Under the root execute:
 
 ```
 yarn client:start
+```
+
+#### Building the React-app
+
+Under the root execute:
+
+```
+yarn client:build
+```
+
+This command creates a directory `build` under the client folder. Afster building, the `build` folder will be copied to the `dist\client` folder (under the root of the project).
+
+#### Running the tests for React-client
+
+Under the root execute:
+
+```
+yarn client:test
 ```
 
 ## API Specification
