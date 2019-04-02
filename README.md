@@ -32,12 +32,28 @@ yarn install
 
 ### Scripts
 
-#### Running the Express-server
+#### Running the Express-server in development
 
 Under the root execute:
 
 ```
 yarn server:start
+```
+
+#### Running the React-client in development
+
+Under the root execute:
+
+```
+yarn client:start
+```
+
+#### Running the Express-server and React-client in development
+
+Under the root execute:
+
+```
+yarn start:all
 ```
 
 #### Running the tests for Express-server
