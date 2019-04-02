@@ -8,6 +8,7 @@ const PostSchema = new Schema(
         title: { type: String, required: true, max: 128 },
         synopsis: { type: String, required: true, max: 512 },
         body: { type: String, required: false },
+        slug: { type: String, lowercase: true, unique: true, required: true },
         published_at: { type: Date, required: false },
         deleted_at: { type: Date, required: false },
     },
@@ -21,11 +22,17 @@ const PostSchema = new Schema(
 );
 
 PostSchema.virtual('id').get(function () { return this._id; });
+
+PostSchema.methods.slugify = function () {
+    this.slug = slug(this.title);
+};
+
 PostSchema.pre('validate', function (next) {
     if (!this.slug) {
-        this.slug = slug(this.title);
+        this.slugify();
     }
     return next();
 });
+
 
 export default mongoose.model('Post', PostSchema);
