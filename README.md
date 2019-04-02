@@ -22,6 +22,12 @@ NODE_SERVER_PORT={your port for the server} (ex.: 8080)
 MONGODB_CONNECTION={your mongodb connection string}
 ```
 
+Create a `.env`-file under the `src/client` folder following contents:
+
+```
+SKIP_PREFLIGHT_CHECK=true
+```
+
 ### Installing
 
 Under the root execute:
