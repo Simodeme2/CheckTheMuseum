@@ -1,4 +1,4 @@
-![React Coding]:(https://cdn-images-1.medium.com/max/2600/1*qXcjSfRj0C0ir2yMsYiRyw.jpeg)
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
 
 # NMD MERN Template
 
