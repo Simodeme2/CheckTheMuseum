@@ -15,7 +15,7 @@ class PostController {
     // List all the models
     index = async (req, res, next) => {
         try {
-            const posts = await Post.find().sort( { created_at: -1 } ).exec();
+            const posts = await Post.find().sort({ created_at: -1 }).exec();
 
             if (posts === undefined || posts === null) {
                 throw new APIError(404, 'Collection for posts not found!');
@@ -27,16 +27,16 @@ class PostController {
     };
 
     // Show specific model by id
-    show = async (req, res, next) => { 
+    show = async (req, res, next) => {
         try {
             const { id } = req.params;
             const item = await Post.findById(id).exec();
             if (item === undefined || item === null) {
                 throw new APIError(404, `Post with id: ${id} not found!`);
             }
-            res.status(200).json(item);
+            return res.status(200).json(item);
         } catch (err) {
-            handleAPIError(err.status || 500, err.message || 'Some error occurred while retrieving posts', next);
+            return handleAPIError(err.status || 500, err.message || 'Some error occurred while retrieving posts', next);
         }
     }
 
@@ -49,7 +49,7 @@ class PostController {
     }
 
     // Store / Create the new model
-    store = async (req, res, next) => {        
+    store = async (req, res, next) => {
         try {
             const postCreate = new Post({
                 title: req.body.title,
@@ -57,9 +57,9 @@ class PostController {
                 body: req.body.body,
             });
             const post = await postCreate.save();
-            res.status(201).json(post);
+            return res.status(201).json(post);
         } catch (err) {
-            handleAPIError(err.status || 500, err.message || 'Some error occurred while saving the Post!', next);
+            return handleAPIError(err.status || 500, err.message || 'Some error occurred while saving the Post!', next);
         }
     }
 
@@ -80,7 +80,7 @@ class PostController {
                 return res.status(200).json(vm);
             }
         } catch (err) {
-            handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
+            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
         }
     }
 
@@ -97,24 +97,24 @@ class PostController {
             }
             return res.status(200).json(post);
         } catch (err) {
-            handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
+            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
         }
     }
 
     // Delete / Destroy the model
-    destroy = async (req, res, next) => { 
+    destroy = async (req, res, next) => {
         const { id } = req.params;
 
         try {
             const post = await Post.findOneAndRemove({ _id: id });
-  
+
             if (!post) {
                 throw new APIError(404, `Post with id: ${id} not found!`);
             } else {
-                res.status(200).json({ message: `Successful deleted the Post with id: ${id}!` });
+                return res.status(200).json({ message: `Successful deleted the Post with id: ${id}!` });
             }
         } catch (err) {
-            handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
+            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);
         }
     }
 }

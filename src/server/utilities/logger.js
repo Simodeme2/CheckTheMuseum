@@ -1,4 +1,3 @@
-    
 /*
 Import the extrnal libraries:
 - winston
@@ -6,7 +5,7 @@ Import the extrnal libraries:
 import { createLogger, format, transports } from 'winston';
 
 const {
-    align, combine, colorize, timestamp, printf
+    align, combine, colorize, timestamp, printf,
 } = format;
 const logger = createLogger({
     format: combine(
@@ -15,10 +14,10 @@ const logger = createLogger({
         align(),
         printf((info) => {
             const {
-              timestamp, level, message, ...args
+                timestamp: tstamp, level, message, ...args
             } = info;
-      
-            const ts = timestamp.slice(0, 19).replace('T', ' ');
+
+            const ts = tstamp.slice(0, 19).replace('T', ' ');
             return `${ts} [${level}]: ${message} ${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`;
         }),
     ),

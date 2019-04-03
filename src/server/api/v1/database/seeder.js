@@ -6,8 +6,10 @@ import faker from 'faker';
 
 /*
 Import the internal libraries:
+- logger
 - Post
 */
+import { logger } from '../../../utilities';
 import { Post } from './schemas';
 
 class Seeder {
@@ -27,9 +29,9 @@ class Seeder {
             const newPost = await post.save();
             this.posts.push(newPost);
 
-            console.log(`Post create with id: ${newPost.id}!`);
+            logger.log({ level: 'info', message: `Post create with id: ${newPost.id}!` });
         } catch (err) {
-            console.log(`Post create with id: ${err}!`);
+            logger.log({ level: 'info', message: `An error occurred when creating a : ${err}!` });
         }
     }
 

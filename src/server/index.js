@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /*
 Import configuration
 */
@@ -18,7 +19,7 @@ Import the external libraries:
 - swagger
 */
 import http from 'http';
-import https from 'https';
+/* import https from 'https'; */
 import express from 'express';
 import morgan from 'morgan';
 import chalk from 'chalk';
@@ -139,12 +140,10 @@ app.use((error, req, res) => {
 
     if (req.xhr) {
         res.json(obj);
+    } else if (!req.xhr && error.status === 404) {
+        res.render('404', obj);
     } else {
-        if (error.status === 404) {
-            res.render('404', obj);
-        } else {
-            res.render('error', obj);
-        }
+        res.render('error', obj);
     }
 });
 
