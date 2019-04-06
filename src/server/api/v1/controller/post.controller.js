@@ -15,7 +15,19 @@ class PostController {
     // List all the models
     index = async (req, res, next) => {
         try {
-            const posts = await Post.find().populate('__category').sort({ created_at: -1 }).exec();
+            const { limit, skip } = req.query;
+            let posts = null;
+            if (limit && skip) {
+                const options = {
+                    page: parseInt(skip, 10) || 1,
+                    limit: parseInt(limit, 10) || 10,
+                    populate: '__category',
+                    sort: { created_at: -1 },
+                };
+                posts = await Post.paginate({}, options);
+            } else {
+                posts = await Post.find().populate('__category').sort({ created_at: -1 }).exec();
+            }
 
             if (posts === undefined || posts === null) {
                 throw new APIError(404, 'Collection for posts not found!');

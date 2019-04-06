@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
 import slug from 'slug';
 
 const { Schema } = mongoose;
@@ -41,4 +42,5 @@ CategorySchema.virtual('subCategories', {
     justOne: false,
 });
 
+CategorySchema.plugin(mongoosePaginate);
 export default mongoose.model('Category', CategorySchema);

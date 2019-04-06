@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
 import slug from 'slug';
 
 const { Schema } = mongoose;
@@ -37,4 +38,5 @@ PostSchema.pre('validate', function (next) {
     return next();
 });
 
+PostSchema.plugin(mongoosePaginate);
 export default mongoose.model('Post', PostSchema);

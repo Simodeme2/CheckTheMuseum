@@ -13,7 +13,7 @@ const initializeEndpoints = (parentRouter) => {
      * /api/v1/categories:
      *   get:
      *     tags:
-     *       - Posts
+     *       - Categories
      *     description: Returns all categories
      *     produces:
      *       - application/json

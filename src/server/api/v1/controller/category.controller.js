@@ -15,7 +15,18 @@ class CategoryController {
     // List all the models
     index = async (req, res, next) => {
         try {
-            const categories = await Category.find().sort({ created_at: -1 }).exec();
+            const { limit, skip } = req.query;
+            let categories = null;
+            if (limit && skip) {
+                const options = {
+                    page: parseInt(skip, 10) || 1,
+                    limit: parseInt(limit, 10) || 10,
+                    sort: { created_at: -1 },
+                };
+                categories = await Category.paginate({}, options);
+            } else {
+                categories = await Category.find().sort({ created_at: -1 }).exec();
+            }
 
             if (categories === undefined || categories === null) {
                 throw new APIError(404, 'Collection for categories not found!');

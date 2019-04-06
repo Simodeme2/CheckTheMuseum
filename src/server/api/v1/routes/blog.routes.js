@@ -13,7 +13,7 @@ const initializeEndpoints = (parentRouter) => {
      * /api/v1/blogs:
      *   get:
      *     tags:
-     *       - Posts
+     *       - Blogs
      *     description: Returns all blogs
      *     produces:
      *       - application/json
@@ -27,7 +27,7 @@ const initializeEndpoints = (parentRouter) => {
      * /api/v1/blogs/create:
      *   get:
      *     tags:
-     *       - Category
+     *       - Blog
      *     description: Returns specific viewmodel such as blogs
      *     produces:
      *       - application/json
@@ -41,13 +41,13 @@ const initializeEndpoints = (parentRouter) => {
      * /api/v1/blogs/{id}:
      *   get:
      *     tags:
-     *       - Category
+     *       - Blog
      *     description: Returns specific post
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Blog id
      *         in: path
      *         required: true
      *         type: string
@@ -61,13 +61,13 @@ const initializeEndpoints = (parentRouter) => {
      * /api/v1/blogs:
      *   post:
      *     tags:
-     *       - Category
+     *       - Blog
      *     description: Save post
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: post
-     *         description: Category object
+     *         description: Blog object
      *         in: body
      *         required: true
      *     responses:
@@ -80,19 +80,19 @@ const initializeEndpoints = (parentRouter) => {
      * /api/v1/blogs/{id}/edit:
      *   get:
      *     tags:
-     *       - Category
+     *       - Blog
      *     description: Returns specific viewmodel such as post, blogs
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Blog id
      *         in: path
      *         required: true
      *         type: string
      *     responses:
      *       200:
-     *         description: Edit post by id
+     *         description: Edit blog by id
      */
     parentRouter.get('/blogs/:id/edit', blogController.edit);
     /**
@@ -100,23 +100,23 @@ const initializeEndpoints = (parentRouter) => {
      * /api/v1/blogs/{id}:
      *   put:
      *     tags:
-     *       - Category
+     *       - Blog
      *     description: Update specific post detail
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Blog id
      *         in: path
      *         required: true
      *         type: string
-     *       - name: post object
-     *         description: post data
+     *       - name: nlog object
+     *         description: blog data
      *         in: body
      *         required: true
      *     responses:
      *       200:
-     *         description: Update post
+     *         description: Update blog
      */
     parentRouter.put('/blogs/:id', blogController.update);
     /**
@@ -124,19 +124,19 @@ const initializeEndpoints = (parentRouter) => {
      * /api/v1/blogs/{id}:
      *   delete:
      *     tags:
-     *       - Category
-     *     description: Delete specific post detail
+     *       - Blog
+     *     description: Delete specific blog
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Blog id
      *         in: path
      *         required: true
      *         type: string
      *     responses:
      *       200:
-     *         description: Delete post
+     *         description: Delete blog
      */
     parentRouter.delete('/blogs/:id', blogController.destroy);
 };
