@@ -3,17 +3,17 @@ import slug from 'slug';
 
 const { Schema } = mongoose;
 
-const PostSchema = new Schema(
+const BlogSchema = new Schema(
     {
         title: { type: String, required: true, max: 128 },
-        synopsis: { type: String, required: true, max: 512 },
-        body: { type: String, required: false },
+        description: { type: String, required: true, max: 512 },
         slug: {
             type: String, lowercase: true, unique: true, required: true,
         },
         published_at: { type: Date, required: false },
         deleted_at: { type: Date, required: false },
         __category: { type: Schema.Types.ObjectId, ref: 'Category', required: false },
+        __posts: [{ type: Schema.Types.ObjectId, ref: 'Post', required: false }],
     },
     {
         toJSON: { virtuals: true },
@@ -24,17 +24,27 @@ const PostSchema = new Schema(
     },
 );
 
-PostSchema.virtual('id').get(function () { return this._id; });
-
-PostSchema.methods.slugify = function () {
+BlogSchema.methods.slugify = function () {
     this.slug = slug(this.title);
 };
 
-PostSchema.pre('validate', function (next) {
+BlogSchema.pre('validate', function (next) {
     if (!this.slug) {
         this.slugify();
     }
     return next();
 });
 
-export default mongoose.model('Post', PostSchema);
+BlogSchema.virtual('id').get(function () { return this._id; });
+BlogSchema.virtual('category', {
+    ref: 'Blog',
+    localField: '_id',
+    foreignField: '__blogs',
+});
+BlogSchema.virtual('posts', {
+    ref: 'Post',
+    localField: '_id',
+    foreignField: '__posts',
+});
+
+export default mongoose.model('Blog', BlogSchema);

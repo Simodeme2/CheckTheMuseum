@@ -10,11 +10,50 @@ Import the internal libraries:
 - Post
 */
 import { logger } from '../../../utilities';
-import { Post } from './schemas';
+import { Blog, Category, Post } from './schemas';
 
 class Seeder {
     constructor() {
+        this.blogs = [];
+        this.categories = [];
         this.posts = [];
+    }
+
+    blogCreate = async (title, description) => {
+        const blogDetail = {
+            title,
+            description,
+            __category: this.getRandomCategory(),
+            __posts: this.getRandomPosts(),
+        };
+        const blog = new Blog(blogDetail);
+
+        try {
+            const newblog = await blog.save();
+            this.blogs.push(newblog);
+
+            logger.log({ level: 'info', message: `Blog created with id: ${newblog.id}!` });
+        } catch (err) {
+            logger.log({ level: 'info', message: `An error occurred when creating a blog: ${err}!` });
+        }
+    }
+
+    categoryCreate = async (name, description) => {
+        const categoryDetail = {
+            name,
+            description,
+        };
+        const category = new Category(categoryDetail);
+
+        try {
+            const newCategory = await category.save();
+
+            this.categories.push(newCategory);
+
+            logger.log({ level: 'info', message: `Category created with id: ${newCategory.id}!` });
+        } catch (err) {
+            logger.log({ level: 'info', message: `An error occurred when creating a category: ${err}!` });
+        }
     }
 
     postCreate = async (title, synopsis, body) => {
@@ -22,6 +61,7 @@ class Seeder {
             title,
             synopsis,
             body,
+            __category: this.getRandomCategory(),
         };
         const post = new Post(postDetail);
 
@@ -29,31 +69,80 @@ class Seeder {
             const newPost = await post.save();
             this.posts.push(newPost);
 
-            logger.log({ level: 'info', message: `Post create with id: ${newPost.id}!` });
+            logger.log({ level: 'info', message: `Post created with id: ${newPost.id}!` });
         } catch (err) {
-            logger.log({ level: 'info', message: `An error occurred when creating a : ${err}!` });
+            logger.log({ level: 'info', message: `An error occurred when creating a post: ${err}!` });
         }
     }
 
-  createPosts = async () => {
-      await Promise.all([
-          (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
-          (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
-          (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
-          (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
-          (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
-          (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
-          (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
-      ]);
-  }
+    createBlogs = async () => {
+        await Promise.all([
+            (async () => this.blogCreate(faker.lorem.sentence(), faker.lorem.paragraph()))(),
+        ]);
+    }
 
-  seed = async () => {
-      this.posts = await Post.estimatedDocumentCount().exec().then(async (count) => {
-          if (count === 0) {
-              await this.createPosts();
-          }
-          return Post.find().exec();
-      });
-  }
+    createCategories = async () => {
+        await Promise.all([
+            (async () => this.categoryCreate(faker.lorem.word(), faker.lorem.sentence()))(),
+            (async () => this.categoryCreate(faker.lorem.word(), faker.lorem.sentence()))(),
+            (async () => this.categoryCreate(faker.lorem.word(), faker.lorem.sentence()))(),
+            (async () => this.categoryCreate(faker.lorem.word(), faker.lorem.sentence()))(),
+        ]);
+    }
+
+    createPosts = async () => {
+        await Promise.all([
+            (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
+            (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
+            (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
+            (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
+            (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
+            (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
+            (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
+        ]);
+    }
+
+    getRandomCategory = () => {
+        let category = null;
+        if (this.categories && this.categories.length > 0) {
+            category = this.categories[Math.round(Math.random() * (this.categories.length - 1))];
+        }
+        return category;
+    }
+
+    getRandomPosts = () => {
+        let cPosts = null;
+        if (this.posts && this.posts.length > 0) {
+            const nPosts = Math.round(Math.random() * (this.posts.length - 1));
+            cPosts = this.posts.slice(0, this.posts.length);
+            while (cPosts.length > nPosts) {
+                cPosts.splice(Math.round(Math.random() * (this.posts.length - 1)), 1);
+            }
+        }
+        return cPosts;
+    }
+
+    seed = async () => {
+        this.categories = await Category.estimatedDocumentCount().exec().then(async (count) => {
+            if (count === 0) {
+                await this.createCategories();
+            }
+            return Category.find().exec();
+        });
+
+        this.posts = await Post.estimatedDocumentCount().exec().then(async (count) => {
+            if (count === 0) {
+                await this.createPosts();
+            }
+            return Post.find().exec();
+        });
+
+        this.blogs = await Blog.estimatedDocumentCount().exec().then(async (count) => {
+            if (count === 0) {
+                await this.createBlogs();
+            }
+            return Blog.find().exec();
+        });
+    }
 }
 export default Seeder;
