@@ -15,7 +15,7 @@ class BlogController {
     // List all the models
     index = async (req, res, next) => {
         try {
-            const blogs = await Blog.find().sort({ created_at: -1 }).exec();
+            const blogs = await Blog.find().populate('__category').sort({ created_at: -1 }).exec();
 
             if (blogs === undefined || blogs === null) {
                 throw new APIError(404, 'Collection for blogs not found!');
@@ -30,7 +30,7 @@ class BlogController {
     show = async (req, res, next) => {
         try {
             const { id } = req.params;
-            const item = await Blog.findById(id).exec();
+            const item = await Blog.findById(id).populate('__category').populate('__posts').exec();
             if (item === undefined || item === null) {
                 throw new APIError(404, `Blog with id: ${id} not found!`);
             }
