@@ -3,14 +3,14 @@ Import extenal libraries
 */
 import React, { Component } from 'react';
 
-class HomePage extends Component {
+class PostsTablePage extends Component {
   render() {
     return (
       <div>
-        Home Page JAJA
+        POSTS
       </div>
     )
   }
 }
 
-export default (HomePage);
+export default (PostsTablePage);
