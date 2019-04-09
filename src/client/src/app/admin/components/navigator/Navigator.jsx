@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link, Redirect, Switch } from 'react-router-dom';
+import { Link, location, withRouter } from 'react-router-dom';
 
 /*
 Material-UI
@@ -28,9 +28,9 @@ const categories = [
   {
     id: 'Develop',
     children: [
-      { id: 'Blogs', icon: <PermMediaOutlinedIcon />, link: '/admin/posts' },
-      { id: 'Categories', icon: <DnsRoundedIcon />, link: '/admin/posts' },
-      { id: 'Posts', icon: <PeopleIcon />, active: true, link: '/admin/posts' },
+      { id: 'Blogs', icon: <PermMediaOutlinedIcon />, link: '/admin/blogs' },
+      { id: 'Categories', icon: <DnsRoundedIcon />, link: '/admin/categories' },
+      { id: 'Posts', icon: <PeopleIcon />, link: '/admin/posts' },
     ],
   },
 ];
@@ -80,71 +80,83 @@ const styles = theme => ({
   },
 });
 
-function Navigator(props) {
-  const { classes, ...other } = props;
+class Navigator extends Component {
 
-  return (
-    <Drawer variant="permanent" {...other}>
-      <List disablePadding>
-        <ListItem className={classNames(classes.firebase, classes.item, classes.itemCategory)}>
-          NMD CMS
-        </ListItem>
-        <ListItem className={classNames(classes.item, classes.itemCategory)} component={props => <Link to="/admin/dashboard" {...props} />}>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText
-            classes={{
-              primary: classes.itemPrimary,
-            }}
-          >
-            Dashboard
-          </ListItemText>
-        </ListItem>
-        {categories.map(({ id, children }) => (
-          <React.Fragment key={id}>
-            <ListItem className={classes.categoryHeader}>
-              <ListItemText
-                classes={{
-                  primary: classes.categoryHeaderPrimary,
-                }}
-              >
-                {id}
-              </ListItemText>
-            </ListItem>
-            {children.map(({ id: childId, icon, active, link }) => (
-              <ListItem
-                button
-                dense
-                key={childId}
-                className={classNames(
-                  classes.item,
-                  classes.itemActionable,
-                  active && classes.itemActiveItem,
-                )}
-                component={props => <Link to={link} {...props} />}
-              >
-                <ListItemIcon>{icon}</ListItemIcon>
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+  };
+
+  isActive = (value) => {
+    return this.props.location.pathname.indexOf(value) !== -1?this.props.classes.itemActiveItem : '';
+  };
+
+  render() {
+    const { classes, ...other } = this.props;
+
+    return (
+      <Drawer variant="permanent" {...other}>
+        <List disablePadding>
+          <ListItem className={classNames(classes.firebase, classes.item, classes.itemCategory)}>
+            NMD CMS
+          </ListItem>
+          <ListItem className={classNames(classes.item, classes.itemCategory, this.isActive("/admin/dashboard"))} component={props => <Link to="/admin/dashboard" {...props} />}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText
+              classes={{
+                primary: classes.itemPrimary,
+              }}
+            >
+              Dashboard
+            </ListItemText>
+          </ListItem>
+          {categories.map(({ id, children }) => (
+            <React.Fragment key={id}>
+              <ListItem className={classes.categoryHeader}>
                 <ListItemText
                   classes={{
-                    primary: classes.itemPrimary,
-                    textDense: classes.textDense,
+                    primary: classes.categoryHeaderPrimary,
                   }}
                 >
-                  {childId}
+                  {id}
                 </ListItemText>
               </ListItem>
-            ))}
-            <Divider className={classes.divider} />
-          </React.Fragment>
-        ))}
-      </List>
-    </Drawer>
-  );
+              {children.map(({ id: childId, icon, link }) => (
+                <ListItem
+                  button
+                  dense
+                  key={childId}
+                  className={classNames(
+                    classes.item,
+                    classes.itemActionable,
+                    this.isActive(link),
+                  )}
+                  component={props => <Link to={link} {...props} />}
+                >
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText
+                    classes={{
+                      primary: classes.itemPrimary,
+                      textDense: classes.textDense,
+                    }}
+                  >
+                    {childId}
+                  </ListItemText>
+                </ListItem>
+              ))}
+              <Divider className={classes.divider} />
+            </React.Fragment>
+          ))}
+        </List>
+      </Drawer>
+    );
+  }
 }
 
 Navigator.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Navigator);
+export default withStyles(styles)(withRouter(Navigator));

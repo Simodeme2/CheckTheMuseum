@@ -118,12 +118,20 @@ class PostController {
         const { id } = req.params;
 
         try {
-            const post = await Post.findOneAndRemove({ _id: id });
+            let post = null;
+
+            let { mode } = req.query;
+            if (mode) {
+                post = await Post.findByIdAndUpdate({ _id: id }, { deleted_at: (mode === 'softdelete' ? Date.now() : null) }, { new: true });
+            } else {
+                mode = 'delete';
+                post = await Post.findOneAndRemove({ _id: id });
+            }
 
             if (!post) {
                 throw new APIError(404, `Post with id: ${id} not found!`);
             } else {
-                return res.status(200).json({ message: `Successful deleted the Post with id: ${id}!` });
+                return res.status(200).json({ message: `Successful deleted the Post with id: ${id}!`, post, mode });
             }
         } catch (err) {
             return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Post with id: ${id}!`, next);

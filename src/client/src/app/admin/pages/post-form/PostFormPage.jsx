@@ -11,18 +11,18 @@ import Grid from '@material-ui/core/Grid';
 /*
 Components
 */
-import PostsTable from '../../components/posts-table';
+import PostForm from '../../components/post-form';
 
-class PostsTablePage extends Component {
+class PostFormPage extends Component {
   render() {
     return (
       <Grid container spacing={24}>
           <Grid item xs={12}>
-              <PostsTable />
+              <PostForm />
           </Grid>
       </Grid>
     )
   }
 }
 
-export default (PostsTablePage);
+export default (PostFormPage);

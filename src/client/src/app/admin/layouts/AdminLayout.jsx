@@ -151,7 +151,7 @@ const styles = {
   },
   mainContent: {
     flex: 1,
-    padding: '48px 36px 0',
+    padding: '0',
     background: '#eaeff1',
   },
 };
@@ -166,7 +166,7 @@ class AdminLayout extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { children, classes } = this.props;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -188,7 +188,7 @@ class AdminLayout extends React.Component {
           <div className={classes.appContent}>
             <Header onDrawerToggle={this.handleDrawerToggle} />
             <main className={classes.mainContent}>
-              { this.props.children }
+              { children }
             </main>
           </div>
         </div>

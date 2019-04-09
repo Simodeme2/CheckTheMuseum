@@ -2,28 +2,21 @@
 Import extenal libraries
 */
 import React, { Component } from 'react';
-import { Link, Redirect, Switch } from 'react-router-dom';
-
-/*
-Utilities
-*/
-import { RouteWithLayout } from '../../../utilities';
-
-/*
-Layout
-*/
-import { ContentLayout } from '../../layouts';
+import { Route } from 'react-router-dom';
 
 /*
 Pages
 */
 import PostsTablePage from '../posts-table';
+import PostsOverviewPage from '../posts-overview';
 
 class DashboardPage extends Component {
   render() {
     return (
       <div className="Admin">
-        <RouteWithLayout path="/admin/posts" layout={ ContentLayout } component={ PostsTablePage }></RouteWithLayout>
+        <Route path="/admin/blogs" component={ PostsTablePage }></Route>
+        <Route path="/admin/categories" component={ PostsTablePage }></Route>
+        <Route path="/admin/posts" component={ PostsOverviewPage }></Route>
       </div>
     )
   }
