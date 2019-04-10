@@ -171,7 +171,7 @@ class PostsTable extends Component {
                 <TableRow key={post.id}>
                   <TableCell>{post.title}</TableCell>
                   <TableCell>{post.synopsis}</TableCell>
-                  <TableCell>{post.__category.name}</TableCell>
+                  <TableCell>{post.__category && post.__category.name}</TableCell>
                   <TableCell>{post.created_at}</TableCell>
                   <TableCell>
                     <IconButton

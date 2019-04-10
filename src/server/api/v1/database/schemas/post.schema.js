@@ -7,7 +7,7 @@ const { Schema } = mongoose;
 const PostSchema = new Schema(
     {
         title: { type: String, required: true, max: 128 },
-        synopsis: { type: String, required: true, max: 512 },
+        synopsis: { type: String, required: true, max: 1024 },
         body: { type: String, required: false },
         slug: {
             type: String, lowercase: true, unique: true, required: true,

@@ -41,6 +41,7 @@ class Form extends Component {
             errors,
             touched,
             handleChange,
+            handleSubmit,
             isValid,
             setFieldTouched,
             categories,
@@ -49,9 +50,10 @@ class Form extends Component {
 
         return (
           <form
-              onSubmit={() => {
-                alert("submitted");
+              onSubmit={(e) => {
+                this.props.handleSubmit(e);
               }}
+              method="POST"
           >
               <TextField
                 id="title"
@@ -95,14 +97,12 @@ class Form extends Component {
               <FormControl>
                 <InputLabel htmlFor="age-simple">Category</InputLabel>
                 <Select
-                  id="category"
-                  name="category"
                   className={classes.selectCategories}
                   value={category}
                   onChange={this.change.bind(null, "category")}
                   inputProps={{
-                    name: 'age',
-                    id: 'age-simple',
+                    name: 'category',
+                    id: 'category',
                   }}
                 >
                   <MenuItem value="">
