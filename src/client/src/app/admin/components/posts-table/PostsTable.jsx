@@ -171,11 +171,11 @@ class PostsTable extends Component {
                 <TableRow key={post.id}>
                   <TableCell>{post.title}</TableCell>
                   <TableCell>{post.synopsis}</TableCell>
-                  <TableCell>{post.__category && post.__category.name}</TableCell>
+                  <TableCell>{post.category && post.category.name}</TableCell>
                   <TableCell>{post.created_at}</TableCell>
                   <TableCell>
                     <IconButton
-                      component={Link} to={ '/admin/post-create?id=' + post.id}>
+                      component={Link} to={ `/admin/posts/${post.id}/edit`}>
                       <IconCreate />
                     </IconButton>
                     <IconButton

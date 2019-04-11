@@ -23,8 +23,8 @@ class Seeder {
         const blogDetail = {
             title,
             description,
-            __category: this.getRandomCategory(),
-            __posts: this.getRandomPosts(),
+            categoryId: this.getRandomCategory(),
+            posts: this.getRandomPosts(),
         };
         const blog = new Blog(blogDetail);
 
@@ -61,7 +61,7 @@ class Seeder {
             title,
             synopsis,
             body,
-            __category: this.getRandomCategory(),
+            categoryId: this.getRandomCategory(),
         };
         const post = new Post(postDetail);
 

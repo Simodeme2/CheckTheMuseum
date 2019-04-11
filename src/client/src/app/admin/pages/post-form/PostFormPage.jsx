@@ -15,10 +15,16 @@ import PostForm from '../../components/post-form';
 
 class PostFormPage extends Component {
   render() {
+    const { id } = this.props.match.params;
+
     return (
       <Grid container spacing={24}>
           <Grid item xs={12}>
+              {id ? (
+              <PostForm postId={id} />
+              ) : (
               <PostForm />
+              )}
           </Grid>
       </Grid>
     )

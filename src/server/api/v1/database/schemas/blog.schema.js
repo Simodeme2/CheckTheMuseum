@@ -12,8 +12,8 @@ const BlogSchema = new Schema(
         },
         published_at: { type: Date, required: false },
         deleted_at: { type: Date, required: false },
-        __category: { type: Schema.Types.ObjectId, ref: 'Category', required: false },
-        __posts: [{ type: Schema.Types.ObjectId, ref: 'Post', required: false }],
+        categoryId: { type: Schema.Types.ObjectId, ref: 'Category', required: false },
+        posts: [{ type: Schema.Types.ObjectId, ref: 'Post', required: false }],
     },
     {
         toJSON: { virtuals: true },
@@ -36,15 +36,5 @@ BlogSchema.pre('validate', function (next) {
 });
 
 BlogSchema.virtual('id').get(function () { return this._id; });
-BlogSchema.virtual('category', {
-    ref: 'Blog',
-    localField: '_id',
-    foreignField: '__blogs',
-});
-BlogSchema.virtual('posts', {
-    ref: 'Post',
-    localField: '_id',
-    foreignField: '__posts',
-});
 
 export default mongoose.model('Blog', BlogSchema);

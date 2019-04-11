@@ -37,7 +37,7 @@ class Form extends Component {
 
     render() {
         const {
-            values: { title, synopsis, body, category, },
+            values: { title, synopsis, body, categoryId, },
             errors,
             touched,
             handleChange,
@@ -95,14 +95,14 @@ class Form extends Component {
               />
         
               <FormControl>
-                <InputLabel htmlFor="age-simple">Category</InputLabel>
+                <InputLabel htmlFor="categoryId">Category</InputLabel>
                 <Select
                   className={classes.selectCategories}
-                  value={category}
+                  value={categoryId}
                   onChange={this.change.bind(null, "category")}
                   inputProps={{
-                    name: 'category',
-                    id: 'category',
+                    name: 'categoryId',
+                    id: 'categoryId',
                   }}
                 >
                   <MenuItem value="">

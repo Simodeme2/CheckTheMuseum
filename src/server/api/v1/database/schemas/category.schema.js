@@ -13,7 +13,7 @@ const CategorySchema = new Schema(
         },
         published_at: { type: Date, required: false },
         deleted_at: { type: Date, required: false },
-        __parentCategory: { type: Schema.Types.ObjectId, ref: 'Category', required: false },
+        parentCategoryId: { type: Schema.Types.ObjectId, ref: 'Category', required: false },
     },
     {
         toJSON: { virtuals: true },
@@ -38,7 +38,7 @@ CategorySchema.virtual('id').get(function () { return this._id; });
 CategorySchema.virtual('subCategories', {
     ref: 'Category',
     localField: '_id',
-    foreignField: '__parentCategory',
+    foreignField: 'parentCategoryId',
     justOne: false,
 });
 

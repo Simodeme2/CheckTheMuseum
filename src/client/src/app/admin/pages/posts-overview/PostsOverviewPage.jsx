@@ -29,6 +29,7 @@ class PostsOverviewPage extends Component {
         { children }
         <Route exact path="/admin/posts" component={ PostsTablePage }></Route>
         <Route path="/admin/posts/create" component={ PostFormPage }></Route>
+        <Route path="/admin/posts/:id/edit" component={ PostFormPage }></Route>
       </ContentLayout>
     )
   }

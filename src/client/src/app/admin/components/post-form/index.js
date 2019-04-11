@@ -26,7 +26,7 @@ const validationSchema = Yup.object(
     title: Yup.string("Enter a title").required("Title is required").min(10).max(128),
     synopsis: Yup.string("Enter a synopsis").required("Synopsis is required").min(128).max(1024),
     body: Yup.string("Enter a story").required(false).min(512),
-    category: Yup.string("Enter a story").required(false),
+    categoryId: Yup.string("Select a category").required(false),
 });
 
 /*
@@ -53,10 +53,15 @@ class PostForm extends Component {
     
     state = {
         categories: [],
+        post: { title: "", synopsis: "", body: "", categoryId: "", },
     };
 
     componentWillMount() {
         this.loadCategories();
+        
+        if (this.props.postId) {            
+            this.loadPost(this.props.postId);
+        }
     }
 
     loadCategories = async () => {
@@ -68,6 +73,7 @@ class PostForm extends Component {
             };
 
             const response = await fetch('/api/v1/categories', options);
+            console.log(response);
             const responseJson = await response.json();
             if (responseJson) {
                 this.setState(prevState => ({ 
@@ -80,25 +86,47 @@ class PostForm extends Component {
         }
     }
 
+    loadPost = async (postId) => {
+        try {
+            const options = {
+                method: 'GET',
+                mode: 'cors',
+                cache: 'default'
+            };
+
+            const response = await fetch(`/api/v1/posts/${postId}`, options);
+            const responseJson = await response.json();
+            if (responseJson) {
+                this.setState(prevState => ({ 
+                    ...prevState, 
+                    post: responseJson 
+                }));
+            }
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
     submit = (values, actions) => {
-        console.log(values);
-        const postData = new Blob([JSON.stringify({
-            title: values.title,
-            synopsis: values.synopsis,
-            body: values.body,
-            __category: values.category
-        }, null, 2)], {type : 'application/json'});
+        const { postId } = this.props;
 
-        console.log(postData);
-
-        this.savePost(postData);
+        if (postId) {  
+            this.updatePost(postId, values);          
+        } else {
+            this.savePost(values);
+        }
+        
     }
 
     savePost = async (postData) => {
         try {
             const options = {
                 method: 'POST',
-                body: postData,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData),
                 mode: 'cors',
                 cache: 'default'
             };
@@ -106,7 +134,30 @@ class PostForm extends Component {
             const response = await fetch('/api/v1/posts', options);
             const responseJson = await response.json();
             if (responseJson) {
+                console.log(responseJson);
+            }
+        } catch(error) {
+            console.log(error);
+        }
+    }
 
+    updatePost = async (postId, postData) => {
+        try {
+            const options = {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(postData),
+                mode: 'cors',
+                cache: 'default'
+            };
+
+            const response = await fetch(`/api/v1/posts/${postId}`, options);
+            const responseJson = await response.json();
+            if (responseJson) {
+                console.log(responseJson);
             }
         } catch(error) {
             console.log(error);
@@ -115,7 +166,9 @@ class PostForm extends Component {
 
     render() {
         const { classes } = this.props;
-        const values = { title: "", synopsis: "", body: "", category: "", };
+        const { post:values } = this.state;
+
+        console.log(values);
 
         return (
             <React.Fragment>
@@ -126,6 +179,7 @@ class PostForm extends Component {
                             initialValues={values}
                             validationSchema={validationSchema}
                             onSubmit={(values, actions) => this.submit(values, actions)}
+                            enableReinitialize={true}
                         />
                     </Paper>
                 </div>

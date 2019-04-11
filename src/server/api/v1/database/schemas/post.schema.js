@@ -14,7 +14,7 @@ const PostSchema = new Schema(
         },
         published_at: { type: Date, required: false },
         deleted_at: { type: Date, required: false },
-        __category: { type: Schema.Types.ObjectId, ref: 'Category', required: false },
+        categoryId: { type: Schema.Types.ObjectId, ref: 'Category', required: false },
     },
     {
         toJSON: { virtuals: true },
@@ -25,8 +25,6 @@ const PostSchema = new Schema(
     },
 );
 
-PostSchema.virtual('id').get(function () { return this._id; });
-
 PostSchema.methods.slugify = function () {
     this.slug = slug(this.title);
 };
@@ -36,6 +34,14 @@ PostSchema.pre('validate', function (next) {
         this.slugify();
     }
     return next();
+});
+
+PostSchema.virtual('id').get(function () { return this._id; });
+PostSchema.virtual('category', {
+    ref: 'Category',
+    localField: 'categoryId',
+    foreignField: '_id',
+    justOne: true,
 });
 
 PostSchema.plugin(mongoosePaginate);
