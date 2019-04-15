@@ -5,26 +5,25 @@ Import styling
 */
 import logo from '../assets/images/logo.svg';
 import './Page.css';
- 
-const PageLayout = ({ component: Component, ...rest }) => {
-  return (
-      <div>
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-  );
-};
+
+class PageLayout extends React.Component {
+    render() {
+        const { children, classes } = this.props;
+
+        return (
+            <div className="page">
+                <header role="header">
+                    HEADER
+                </header>
+                <main class="main" role="main">
+                    { children }
+                </main>
+                <footer class="footer" role="footer">
+                    FOOTER
+                </footer>
+            </div>
+        )
+    }
+}
  
 export default PageLayout;

@@ -3,14 +3,19 @@ Import extenal libraries
 */
 import React, { Component } from 'react';
 
+/*
+Import internal libraries
+*/
+import PostsList from '../../components/posts-list';
+
 class HomePage extends Component {
-  render() {
-    return (
-      <div>
-        Home Page JAJA
-      </div>
-    )
-  }
+    render() {
+        return (
+            <div>
+                <PostsList />
+            </div>
+        )
+    }
 }
 
 export default (HomePage);

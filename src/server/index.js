@@ -134,6 +134,8 @@ app.use((error, req, res, next) => {
         },
     };
 
+    logger.log({ level: 'error', message: `${obj.error.message}` });
+
     if (req.xhr) {
         res.json(obj);
     } else if (!req.xhr && error.status === 404) {
@@ -141,6 +143,7 @@ app.use((error, req, res, next) => {
     } else {
         res.render('error', obj);
     }
+    return next();
 });
 
 // Create the http Node.js server
