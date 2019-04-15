@@ -7,16 +7,20 @@ import faker from 'faker';
 /*
 Import the internal libraries:
 - logger
+- Blog
+- Category
 - Post
+- User
 */
 import { logger } from '../../../utilities';
-import { Blog, Category, Post } from './schemas';
+import { Blog, Category, Post, User } from './schemas';
 
 class Seeder {
     constructor() {
         this.blogs = [];
         this.categories = [];
         this.posts = [];
+        this.users = [];
     }
 
     blogCreate = async (title, description) => {
@@ -75,6 +79,25 @@ class Seeder {
         }
     }
 
+    userCreate = async (email, password) => {
+        const userDetail = {
+            email,
+            localProvider: {
+                password,
+            },
+        };
+        const user = new User(userDetail);
+
+        try {
+            const newUser = await user.save();
+            this.posts.push(newUser);
+
+            logger.log({ level: 'info', message: `User created with id: ${newUser.id}!` });
+        } catch (err) {
+            logger.log({ level: 'info', message: `An error occurred when creating a user: ${err}!` });
+        }
+    }
+
     createBlogs = async () => {
         await Promise.all([
             (async () => this.blogCreate(faker.lorem.sentence(), faker.lorem.paragraph()))(),
@@ -99,6 +122,18 @@ class Seeder {
             (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
             (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
             (async () => this.postCreate(faker.lorem.sentence(), faker.lorem.paragraph(), `<p>${faker.lorem.paragraphs(10, '</p></p>')}</p>`))(),
+        ]);
+    }
+
+    createUsers = async () => {
+        await Promise.all([
+            (async () => this.userCreate(faker.internet.email(), 'wicked4u'))(),
+            (async () => this.userCreate(faker.internet.email(), 'wicked4u'))(),
+            (async () => this.userCreate(faker.internet.email(), 'wicked4u'))(),
+            (async () => this.userCreate(faker.internet.email(), 'wicked4u'))(),
+            (async () => this.userCreate(faker.internet.email(), 'wicked4u'))(),
+            (async () => this.userCreate(faker.internet.email(), 'wicked4u'))(),
+            (async () => this.userCreate(faker.internet.email(), 'wicked4u'))(),
         ]);
     }
 
@@ -142,6 +177,13 @@ class Seeder {
                 await this.createBlogs();
             }
             return Blog.find().exec();
+        });
+
+        this.users = await User.estimatedDocumentCount().exec().then(async (count) => {
+            if (count === 0) {
+                await this.createUsers();
+            }
+            return User.find().exec();
         });
     }
 }
