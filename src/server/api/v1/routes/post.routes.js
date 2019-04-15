@@ -7,7 +7,7 @@ import { PostController } from '../controller';
 // Create instance of PostController otherwise you can't use it
 const postController = new PostController();
 
-const initializeEndpoints = (parentRouter) => {
+const initializeEndpoints = (parentRouter, authService) => {
     /**
      * @swagger
      * /api/v1/posts:

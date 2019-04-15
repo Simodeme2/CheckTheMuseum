@@ -7,7 +7,7 @@ import { UserController } from '../controller';
 // Create instance of UserController otherwise you can't use it
 const userController = new UserController();
 
-const initializeEndpoints = (parentRouter) => {
+const initializeEndpoints = (parentRouter, authService) => {
     /**
      * @swagger
      * /api/v1/users:

@@ -7,7 +7,7 @@ import { CategoryController } from '../controller';
 // Create instance of CategoryController otherwise you can't use it
 const categoryController = new CategoryController();
 
-const initializeEndpoints = (parentRouter) => {
+const initializeEndpoints = (parentRouter, authService) => {
     /**
      * @swagger
      * /api/v1/categories:

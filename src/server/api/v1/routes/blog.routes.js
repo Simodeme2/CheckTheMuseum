@@ -7,7 +7,7 @@ import { BlogController } from '../controller';
 // Create instance of BlogController otherwise you can't use it
 const blogController = new BlogController();
 
-const initializeEndpoints = (parentRouter) => {
+const initializeEndpoints = (parentRouter, authService) => {
     /**
      * @swagger
      * /api/v1/blogs:

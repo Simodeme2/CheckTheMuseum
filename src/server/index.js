@@ -17,6 +17,7 @@ Import the external libraries:
 - ejs
 - mongoose
 - swagger
+- passport
 */
 import http from 'http';
 /* import https from 'https'; */
@@ -29,6 +30,7 @@ import path from 'path';
 import mongoose from 'mongoose';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import passport from 'passport';
 
 /*
 Import internal libraries
@@ -102,6 +104,7 @@ if (config.nodeEnvironment === 'Production') {
 } else {
     app.use(express.static(path.join(__dirname, '/../client/build')));
 }
+app.use(passport.initialize());
 app.use('/static', express.static(path.join(__dirname, 'assets')));
 app.use('/api/v1', apiV1Router);
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
@@ -120,15 +123,8 @@ app.get('*', (req, res) => {
     }
 });
 
-// Last route is 404
-app.use((req, res, next) => {
-    const error = new Error('Not found!');
-    error.status = 404;
-    next(error);
-});
-
 // Global Application Error Handler
-app.use((error, req, res) => {
+app.use((error, req, res, next) => {
     res.status(error.status || 500);
     const obj = {
         error: {
