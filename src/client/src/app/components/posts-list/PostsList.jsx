@@ -13,9 +13,13 @@ const styles = theme => ({
 });
 
 class PostsLists extends Component {
+    static propTypes = {
+        classes: PropTypes.object.isRequired,
+    };
+
     state = {
         posts: [],
-    }
+    };
 
     componentWillMount() {
         this.loadPosts();
@@ -43,9 +47,5 @@ class PostsLists extends Component {
         );
     }
 }
-
-PostsLists.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default (PostsLists);

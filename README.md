@@ -34,6 +34,7 @@ Create a `.env`-file under the `src/client` folder following contents:
 
 ```
 SKIP_PREFLIGHT_CHECK=true
+SASS_PATH=node_modules:src
 ```
 
 ### Installing

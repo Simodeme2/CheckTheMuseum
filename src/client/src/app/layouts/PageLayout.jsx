@@ -4,7 +4,7 @@ import React from 'react';
 Import styling
 */
 import logo from '../assets/images/logo.svg';
-import './Page.css';
+import './Page.scss';
 
 class PageLayout extends React.Component {
     render() {

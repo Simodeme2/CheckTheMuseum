@@ -11,7 +11,7 @@ import BlogsOverviewPage from '../blogs-overview';
 import CategoriesOverviewPage from '../categories-overview';
 import PostsOverviewPage from '../posts-overview';
 
-class DashboardPage extends Component {
+class AdminPage extends Component {
   render() {
     return (
       <div className="Admin">
@@ -23,4 +23,4 @@ class DashboardPage extends Component {
   }
 }
 
-export default (DashboardPage);
+export default (AdminPage);
