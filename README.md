@@ -122,6 +122,26 @@ yarn client:test
 - [Swagger Ui for Express](http://{your domain}:{your port]/api/v1/docs/)
 - [ReDoc](http://{your domain}:{your port]/docs/)
 
+## Client
+
+### Urls
+
+- Public
+  - Home: http://{your domain}:{your port]
+  - News: http://{your domain}:{your port]/news
+  - Post Detail: http://{your domain}:{your port]/news/{post id}
+- Admin
+  - Home: http://{your domain}:{your port]/admin
+  - Blog List: http://{your domain}:{your port]/admin/blogs
+  - Blog Create: http://{your domain}:{your port]/admin/blogs/create
+  - Blog Edit: http://{your domain}:{your port]/admin/blogs/{blog id}/edit
+  - Categories List: http://{your domain}:{your port]/admin/categories
+  - Category Create: http://{your domain}:{your port]/admin/categories/create
+  - Category Edit: http://{your domain}:{your port]/admin/categories/{category id}/edit
+  - Posts List: http://{your domain}:{your port]/admin/posts
+  - Post Create: http://{your domain}:{your port]/admin/posts/create
+  - Post Edit: http://{your domain}:{your port]/admin/posts/{post id}/edit
+
 ## Built With
 
 - Node.js

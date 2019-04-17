@@ -157,6 +157,10 @@ const styles = {
 };
 
 class AdminLayout extends React.Component {
+  static propTypes = {
+      classes: PropTypes.object.isRequired,
+  };
+
   state = {
     mobileOpen: false,
   };
@@ -196,9 +200,5 @@ class AdminLayout extends React.Component {
     );
   }
 }
-
-AdminLayout.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(AdminLayout);

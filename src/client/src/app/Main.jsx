@@ -40,7 +40,6 @@ class Main extends Component {
           <RouteWithLayout exact path='/news/:id' layout={ PageLayout } component={ PostDetailPage }/>
           <RouteWithLayout path="/login" layout={ LoginLayout } component={ LoginPage }></RouteWithLayout>
           <RouteWithLayout path="/admin" layout={ AdminLayout } component={ AdminPage }></RouteWithLayout>
-          <Redirect from="/admin/dashboard" to="/admin"/>
         </Switch>
       </div>
     );

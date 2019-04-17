@@ -100,7 +100,7 @@ class Navigator extends Component {
           <ListItem className={classNames(classes.firebase, classes.item, classes.itemCategory)}>
             NMD CMS
           </ListItem>
-          <ListItem className={classNames(classes.item, classes.itemCategory, this.isActive("/admin/dashboard"))} component={props => <Link to="/admin/dashboard" {...props} />}>
+          <ListItem className={classNames(classes.item, classes.itemCategory)} component={props => <Link to="/admin" {...props} />}>
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
