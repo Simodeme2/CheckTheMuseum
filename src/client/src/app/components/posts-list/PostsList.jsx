@@ -17,7 +17,7 @@ class PostsLists extends Component {
         }
     }
     render() {
-        const { data: posts } = this.props;
+        const { posts } = this.props;
 
         return (
             <React.Fragment>

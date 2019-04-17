@@ -27,7 +27,7 @@ class HomePage extends Component {
                 }));
             })
             .catch((error) => {
-
+                console.log(error);
             });
     }
 
@@ -45,7 +45,7 @@ class HomePage extends Component {
                         <h2 className="section__title">Nieuws</h2>
                     </header>
                     <div className="section__content section__content--articles">
-                        <PostsList data={posts} onReadMore={this.goToPostDetailPage} />
+                        <PostsList posts={posts} onReadMore={this.goToPostDetailPage} />
                     </div>
                     <footer className="section__footer">
                         READ MORE

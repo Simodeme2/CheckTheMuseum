@@ -1,9 +1,9 @@
 class Api {
     static URL = '/api/v1';
 
-    static findAllPosts = async ({ queryParams=null }) => {
+    static findAllPosts = async (queryParams=null) => {
         let url = `${this.URL}/posts`;
-        if (queryParams) {
+        if (queryParams !== null) {
             url += (url.indexOf('?') === -1 ? '?' : '&') + this.queryParams(queryParams);
         }   
         const response = await fetch(`${url}`);

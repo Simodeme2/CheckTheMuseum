@@ -26,7 +26,7 @@ class NewsPage extends Component {
 
     loadPosts = (pageIndex) => {
         console.log(pageIndex);
-        Api.findAllPosts({ queryParams: { limit: 3, skip: pageIndex } })
+        Api.findAllPosts({ limit: 3, skip: pageIndex })
             .then((data) => {
                 const prevPosts = this.state.posts;
                 const newPosts = [...prevPosts, ...data.docs];
