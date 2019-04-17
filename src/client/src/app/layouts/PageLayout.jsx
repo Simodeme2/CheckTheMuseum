@@ -15,10 +15,10 @@ class PageLayout extends React.Component {
                 <header role="header">
                     HEADER
                 </header>
-                <main class="main" role="main">
+                <main className="main" role="main">
                     { children }
                 </main>
-                <footer class="footer" role="footer">
+                <footer className="footer" role="footer">
                     FOOTER
                 </footer>
             </div>

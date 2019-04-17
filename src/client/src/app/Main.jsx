@@ -18,9 +18,11 @@ import { AdminLayout } from './admin/layouts';
 /*
 Page components
 */
-import HomePage from './pages/home/HomePage';
+import HomePage from './pages/home';
 import AdminPage from './admin/pages/admin';
 import LoginPage from './pages/login';
+import NewsPage from './pages/news';
+import PostDetailPage from './pages/post-detail';
 
 /*
 Import styling
@@ -34,6 +36,8 @@ class Main extends Component {
         <Switch>
           <RouteWithLayout exact path='/' layout={ PageLayout } component={ HomePage }/>
           <Redirect from="/home" to="/"/>
+          <RouteWithLayout exact path='/news' layout={ PageLayout } component={ NewsPage }/>
+          <RouteWithLayout exact path='/news/:id' layout={ PageLayout } component={ PostDetailPage }/>
           <RouteWithLayout path="/login" layout={ LoginLayout } component={ LoginPage }></RouteWithLayout>
           <RouteWithLayout path="/admin" layout={ AdminLayout } component={ AdminPage }></RouteWithLayout>
           <Redirect from="/admin/dashboard" to="/admin"/>

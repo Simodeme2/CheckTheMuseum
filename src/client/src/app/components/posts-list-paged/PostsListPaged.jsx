@@ -7,17 +7,23 @@ import classNames from 'classnames';
 /*
 Styling
 */
-import './PostsList.scss'
+import './PostsListPaged.scss'
 
-class PostsLists extends Component {
+class PostsListsPaged extends Component {
     readMoreHandler = (ev, id) => {
         ev.preventDefault();
         if (typeof this.props.onReadMore === 'function') {
             this.props.onReadMore(id);
         }
     }
+    loadMoreHandler = (ev, pageIndex) => {
+        ev.preventDefault();
+        if (typeof this.props.onLoadMore === 'function') {
+            this.props.onLoadMore(pageIndex);
+        }
+    }
     render() {
-        const { data: posts } = this.props;
+        const { posts, pagination } = this.props;
 
         return (
             <React.Fragment>
@@ -28,9 +34,10 @@ class PostsLists extends Component {
                         <button onClick={(ev) => this.readMoreHandler(ev, post.id)}>More</button>
                     </article>
                 ))}
+                {posts && pagination.page < pagination.pages ? <button onClick={(ev) => this.loadMoreHandler(ev, pagination.page + 1)}>Meer laden</button>: ''}
             </React.Fragment>
         );
     }
 }
 
-export default (PostsLists);
+export default (PostsListsPaged);
