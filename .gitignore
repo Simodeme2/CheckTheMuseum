@@ -103,7 +103,7 @@ typings/
 
 -# dist folder
 dist/client/
-dist/api/ 
+dist/api/
 dist/assets/
 dist/config/
 dist/utilities/
