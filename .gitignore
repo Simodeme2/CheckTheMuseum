@@ -101,6 +101,15 @@ typings/
 # next.js build output
 .next
 
+-# dist folder
+dist/client/
+dist/api/
+dist/assets/
+dist/config/
+dist/utilities/
+dist/views/
+dist/index.js
+
 # nuxt.js build output
 .nuxt
 
