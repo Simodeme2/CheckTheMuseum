@@ -15,20 +15,20 @@ Pages
 
 
 const tabs = [
-  { id: 'List', link: '/admin/blogs' },
-  { id: 'Create new blog', link: '/admin/blogs/create' },
+  { id: 'List', link: '/admin/companies' },
+  { id: 'Create new Company', link: '/admin/companies/create' },
 ];
 
-class BlogsOverviewPage extends Component {
+class CompaniesOverviewPage extends Component {
   render() {
     const { children } = this.props;
 
     return (
-      <ContentLayout title="Blogs Overview" tabs={tabs}>
+      <ContentLayout title="Companies Overview" tabs={tabs}>
         { children }
       </ContentLayout>
     )
   }
 }
 
-export default (BlogsOverviewPage);
+export default (CompaniesOverviewPage);

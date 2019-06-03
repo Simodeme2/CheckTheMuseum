@@ -28,7 +28,7 @@ const categories = [
   {
     id: 'Develop',
     children: [
-      { id: 'Blogs', icon: <PermMediaOutlinedIcon />, link: '/admin/blogs' },
+      { id: 'Companies', icon: <PermMediaOutlinedIcon />, link: '/admin/companies' },
       { id: 'Categories', icon: <DnsRoundedIcon />, link: '/admin/categories' },
       { id: 'Posts', icon: <PeopleIcon />, link: '/admin/posts' },
       { id: 'Users', icon: <PublicIcon/>, link: '/admin/users',}
