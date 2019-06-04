@@ -13,7 +13,6 @@ const CompanySchema = new Schema(
         },
         published_at: { type: Date, required: false },
         deleted_at: { type: Date, required: false },
-        parentCompanyId: { type: Schema.Types.ObjectId, ref: 'Company', required: false },
     },
     {
         toJSON: { virtuals: true },
@@ -27,19 +26,12 @@ const CompanySchema = new Schema(
 CompanySchema.methods.slugify = function () {
     this.slug = slug(this.name);
 };
+
 CompanySchema.pre('validate', function (next) {
     if (!this.slug) {
         this.slugify();
     }
     return next();
-});
-
-CompanySchema.virtual('id').get(function () { return this._id; });
-CompanySchema.virtual('subCompanies', {
-    ref: 'Company',
-    localField: '_id',
-    foreignField: 'parentCompanyId',
-    justOne: false,
 });
 
 CompanySchema.plugin(mongoosePaginate);

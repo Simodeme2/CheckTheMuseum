@@ -13,7 +13,7 @@ Import the internal libraries:
 - User
 */
 import { logger } from '../../../utilities';
-import { Blog, Category, Post, User } from './schemas';
+import { Blog, Category, Post, User, Company } from './schemas';
 
 class Seeder {
     constructor() {
@@ -21,6 +21,7 @@ class Seeder {
         this.categories = [];
         this.posts = [];
         this.users = [];
+        this.companies = [];
     }
 
     blogCreate = async (title, description) => {
@@ -90,13 +91,32 @@ class Seeder {
 
         try {
             const newUser = await user.save();
-            this.posts.push(newUser);
+            this.users.push(newUser);
 
             logger.log({ level: 'info', message: `User created with id: ${newUser.id}!` });
         } catch (err) {
             logger.log({ level: 'info', message: `An error occurred when creating a user: ${err}!` });
         }
     }
+
+    companyCreate = async (name, description) => {
+        const companyDetail = {
+            name,
+            description,
+        };
+        const company = new Company(companyDetail);
+
+        try {
+            const newCompany = await company.save();
+            this.companies.push(newCompany);
+
+            logger.log({ level: 'info', message: `Company created with id: ${newCompany.id}!` });
+        } catch (err) {
+            logger.log({ level: 'info', message: `An error occurred when creating a company: ${err}!` });
+        }
+    }
+
+
 
     createBlogs = async () => {
         await Promise.all([
@@ -134,6 +154,14 @@ class Seeder {
             (async () => this.userCreate(faker.internet.email(), 'wicked4u'))(),
             (async () => this.userCreate(faker.internet.email(), 'wicked4u'))(),
             (async () => this.userCreate(faker.internet.email(), 'wicked4u'))(),
+        ]);
+    }
+
+    createCompanies = async () => {
+        await Promise.all([
+            (async () => this.companyCreate(faker.company.companyName(), faker.lorem.sentence()))(),
+            (async () => this.companyCreate(faker.company.companyName(), faker.lorem.sentence()))(),
+            (async () => this.companyCreate(faker.company.companyName(), faker.lorem.sentence()))(),
         ]);
     }
 
@@ -184,6 +212,13 @@ class Seeder {
                 await this.createUsers();
             }
             return User.find().exec();
+        });
+
+        this.companies = await Company.estimatedDocumentCount().exec().then(async (count) => {
+            if (count === 0) {
+                await this.createCompanies();
+            }
+            return Company.find().exec();
         });
     }
 }
