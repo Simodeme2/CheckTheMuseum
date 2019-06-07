@@ -20,6 +20,15 @@ class Api {
             .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
             .join('&');
     }
+
+    static museaLocations = async (queryParams=null) => {
+        let url = `https://datatank.stad.gent/4/toerisme/musea.geojson?fbclid=IwAR1m0ckBeUUe5iGT6KDezRcoZiED9LKU-Yn4TsngbYLSNYzXKjmNVwViAFA`;
+        if (queryParams !== null) {
+            url += (url.indexOf('?') === -1 ? '?' : '&') + this.queryParams(queryParams);
+        }   
+        const response = await fetch(`${url}`);
+        return await response.json();
+    }
 }
 
 export default Api;

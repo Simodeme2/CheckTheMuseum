@@ -31,7 +31,16 @@ const categories = [
       { id: 'Companies', icon: <PermMediaOutlinedIcon />, link: '/admin/companies' },
       { id: 'Categories', icon: <DnsRoundedIcon />, link: '/admin/categories' },
       { id: 'Posts', icon: <PeopleIcon />, link: '/admin/posts' },
-      { id: 'Users', icon: <PublicIcon/>, link: '/admin/users',}
+      { id: 'Users', icon: <PublicIcon/>, link: '/admin/users',},
+      { id: 'Orders', icon: <PublicIcon/>, link: '/admin/orders',},
+      { id: 'Musea', icon: <PublicIcon/>, link: '/admin/musea',},
+    ],
+  },
+  {
+    id: 'Login',
+    children: [
+      { id: 'Login', icon: <PermMediaOutlinedIcon />, link: '/login/local' },
+      { id: 'Register', icon: <DnsRoundedIcon />, link: '/register/local' },
     ],
   },
 ];

@@ -1,56 +1,53 @@
 /*
 Import the internal libraries:
-- CategoryController
+- OrderController
 */
-import {
-    CompanyController,
-} from '../controller';
+import { OrderController } from '../controller';
 
-// Create instance of CategoryController otherwise you can't use it
-const companyController = new CompanyController();
+// Create instance of OrderController otherwise you can't use it
+const orderController = new OrderController();
 
-// authService -> can be used as parameter
-const initializeEndpoints = (parentRouter) => {
+const initializeEndpoints = (parentRouter, authService) => {
     /**
      * @swagger
-     * /api/v1/categories:
+     * /api/v1/orders:
      *   get:
      *     tags:
-     *       - Categories
-     *     description: Returns all categories
+     *       - Orders
+     *     description: Returns all orders
      *     produces:
      *       - application/json
      *     responses:
      *       200:
-     *         description: An array of categories
+     *         description: An array of orders
      */
-    parentRouter.get('/companies', companyController.index);
+    parentRouter.get('/orders', orderController.index);
     /**
      * @swagger
-     * /api/v1/categories/create:
+     * /api/v1/orders/create:
      *   get:
      *     tags:
-     *       - Category
-     *     description: Returns specific viewmodel such as categories
+     *       - Order
+     *     description: Returns specific viewmodel such as orders
      *     produces:
      *       - application/json
      *     responses:
      *       200:
      *         description: Create post
      */
-    parentRouter.get('/companies/create/', companyController.create);
+    parentRouter.get('/orders/create/', orderController.create);
     /**
      * @swagger
-     * /api/v1/categories/{id}:
+     * /api/v1/orders/{id}:
      *   get:
      *     tags:
-     *       - Category
+     *       - Order
      *     description: Returns specific post
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Order id
      *         in: path
      *         required: true
      *         type: string
@@ -58,90 +55,90 @@ const initializeEndpoints = (parentRouter) => {
      *       200:
      *         description: Get post by id
      */
-    parentRouter.get('/companies/:id', companyController.show);
+    parentRouter.get('/orders/:id', orderController.show);
     /**
      * @swagger
-     * /api/v1/categories:
+     * /api/v1/orders:
      *   post:
      *     tags:
-     *       - Category
+     *       - Order
      *     description: Save post
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: post
-     *         description: Category object
+     *         description: Order object
      *         in: body
      *         required: true
      *     responses:
      *       200:
      *         description: Return saved post
      */
-    parentRouter.post('/companies', companyController.store);
+    parentRouter.post('/orders', orderController.store);
     /**
      * @swagger
-     * /api/v1/categories/{id}/edit:
+     * /api/v1/orders/{id}/edit:
      *   get:
      *     tags:
-     *       - Category
-     *     description: Returns specific viewmodel such as post, categories
+     *       - Order
+     *     description: Returns specific viewmodel such as post, orders
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Order id
      *         in: path
      *         required: true
      *         type: string
      *     responses:
      *       200:
-     *         description: Edit post by id
+     *         description: Edit order by id
      */
-    parentRouter.get('/companies/:id/edit', companyController.edit);
+    parentRouter.get('/orders/:id/edit', orderController.edit);
     /**
      * @swagger
-     * /api/v1/categories/{id}:
+     * /api/v1/orders/{id}:
      *   put:
      *     tags:
-     *       - Category
+     *       - Order
      *     description: Update specific post detail
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Order id
      *         in: path
      *         required: true
      *         type: string
-     *       - name: post object
-     *         description: post data
+     *       - name: nlog object
+     *         description: order data
      *         in: body
      *         required: true
      *     responses:
      *       200:
-     *         description: Update post
+     *         description: Update order
      */
-    parentRouter.put('/companies/:id', companyController.update);
+    parentRouter.put('/orders/:id', orderController.update);
     /**
      * @swagger
-     * /api/v1/categories/{id}:
+     * /api/v1/orders/{id}:
      *   delete:
      *     tags:
-     *       - Category
-     *     description: Delete specific post detail
+     *       - Order
+     *     description: Delete specific order
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Order id
      *         in: path
      *         required: true
      *         type: string
      *     responses:
      *       200:
-     *         description: Delete post
+     *         description: Delete order
      */
-    parentRouter.delete('/companies/:id', companyController.destroy);
+    parentRouter.delete('/orders/:id', orderController.destroy);
 };
 
 export default initializeEndpoints;

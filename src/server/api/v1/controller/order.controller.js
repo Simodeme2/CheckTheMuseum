@@ -9,34 +9,34 @@ Import the internal libraries:
 - errorHandler
 */
 import {
-    Company,
+    Order,
 } from '../database';
 
 import { APIError, handleAPIError } from '../../../utilities';
 
-class CompanyController {
+class OrderController {
     // List all the models
     index = async (req, res, next) => {
         try {
             const { limit, skip } = req.query;
-            let companies = null;
+            let orders = null;
             if (limit && skip) {
                 const options = {
                     page: parseInt(skip, 10) || 1,
                     limit: parseInt(limit, 10) || 10,
                     sort: { created_at: -1 },
                 };
-                companies = await Company.paginate({}, options);
+                orders = await Order.paginate({}, options);
             } else {
-                companies = await Company.find().sort({ created_at: -1 }).exec();
+                orders = await Order.find().sort({ created_at: -1 }).exec();
             }
 
-            if (companies === undefined || companies === null) {
+            if (orders === undefined || orders === null) {
                 throw new APIError(404, 'Collection for categories not found!');
             }
-            return res.status(200).json(companies);
+            return res.status(200).json(orders);
         } catch (err) {
-            return handleAPIError(500, err.message || 'Some error occurred while retrieving companies', next);
+            return handleAPIError(500, err.message || 'Some error occurred while retrieving orders', next);
         }
     };
 
@@ -44,20 +44,20 @@ class CompanyController {
     show = async (req, res, next) => {
         try {
             const { id } = req.params;
-            const item = await Company.findById(id).exec();
+            const item = await Order.findById(id).exec();
             if (item === undefined || item === null) {
-                throw new APIError(404, `Company with id: ${id} not found!`);
+                throw new APIError(404, `Order with id: ${id} not found!`);
             }
             return res.status(200).json(item);
         } catch (err) {
-            return handleAPIError(err.status || 500, err.message || 'Some error occurred while retrieving companies', next);
+            return handleAPIError(err.status || 500, err.message || 'Some error occurred while retrieving orders', next);
         }
     }
 
     // ViewModel for Insert / Create
     create = (req, res) => {
         const vm = {
-            companies: [],
+            orders: [],
         };
         return res.status(200).json(vm);
     }
@@ -65,15 +65,15 @@ class CompanyController {
     // Store / Create the new model
     store = async (req, res, next) => {
         try {
-            const companyCreate = new Company({
+            const orderCreate = new Order({
                 title: req.body.title,
                 synopsis: req.body.synopsis,
                 body: req.body.body,
             });
-            const company = await companyCreate.save();
-            return res.status(201).json(company);
+            const order = await orderCreate.save();
+            return res.status(201).json(order);
         } catch (err) {
-            return handleAPIError(err.status || 500, err.message || 'Some error occurred while saving the Company!', next);
+            return handleAPIError(err.status || 500, err.message || 'Some error occurred while saving the Order!', next);
         }
     }
 
@@ -82,19 +82,19 @@ class CompanyController {
         const { id } = req.params;
 
         try {
-            const company = await Company.findById(id).exec();
+            const order = await Order.findById(id).exec();
 
-            if (!company) {
+            if (!order) {
                 throw new APIError(404, `Category with id: ${id} not found!`);
             } else {
                 const vm = {
-                    company,
-                    companies: [],
+                    order,
+                    orders: [],
                 };
                 return res.status(200).json(vm);
             }
         } catch (err) {
-            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Company with id: ${id}!`, next);
+            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Order with id: ${id}!`, next);
         }
     }
 
@@ -103,18 +103,18 @@ class CompanyController {
         const { id } = req.params;
 
         try {
-            const companyUpdate = req.body;
-            const company = await Company.findOneAndUpdate(
-                { _id: id }, companyUpdate, { new: true },
+            const orderUpdate = req.body;
+            const order = await Order.findOneAndUpdate(
+                { _id: id }, orderUpdate, { new: true },
             )
                 .exec();
 
-            if (!company) {
+            if (!order) {
                 throw new APIError(404, `Category with id: ${id} not found!`);
             }
-            return res.status(200).json(company);
+            return res.status(200).json(order);
         } catch (err) {
-            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Company with id: ${id}!`, next);
+            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Order with id: ${id}!`, next);
         }
     }
 
@@ -123,17 +123,17 @@ class CompanyController {
         const { id } = req.params;
 
         try {
-            const company = await Company.findOneAndRemove({ _id: id });
+            const order = await Order.findOneAndRemove({ _id: id });
 
-            if (!company) {
-                throw new APIError(404, `Company with id: ${id} not found!`);
+            if (!order) {
+                throw new APIError(404, `Order with id: ${id} not found!`);
             } else {
-                return res.status(200).json({ message: `Successful deleted the Company with id: ${id}!` });
+                return res.status(200).json({ message: `Successful deleted the Order with id: ${id}!` });
             }
         } catch (err) {
-            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Company with id: ${id}!`, next);
+            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Order with id: ${id}!`, next);
         }
     }
 }
 
-export default CompanyController;
+export default OrderController;

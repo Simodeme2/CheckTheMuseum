@@ -9,34 +9,34 @@ Import the internal libraries:
 - errorHandler
 */
 import {
-    Company,
+    Museum,
 } from '../database';
 
 import { APIError, handleAPIError } from '../../../utilities';
 
-class CompanyController {
+class MuseumController {
     // List all the models
     index = async (req, res, next) => {
         try {
             const { limit, skip } = req.query;
-            let companies = null;
+            let musea = null;
             if (limit && skip) {
                 const options = {
                     page: parseInt(skip, 10) || 1,
                     limit: parseInt(limit, 10) || 10,
                     sort: { created_at: -1 },
                 };
-                companies = await Company.paginate({}, options);
+                musea = await Museum.paginate({}, options);
             } else {
-                companies = await Company.find().sort({ created_at: -1 }).exec();
+                musea = await Museum.find().sort({ created_at: -1 }).exec();
             }
 
-            if (companies === undefined || companies === null) {
+            if (musea === undefined || musea === null) {
                 throw new APIError(404, 'Collection for categories not found!');
             }
-            return res.status(200).json(companies);
+            return res.status(200).json(musea);
         } catch (err) {
-            return handleAPIError(500, err.message || 'Some error occurred while retrieving companies', next);
+            return handleAPIError(500, err.message || 'Some error occurred while retrieving musea', next);
         }
     };
 
@@ -44,20 +44,20 @@ class CompanyController {
     show = async (req, res, next) => {
         try {
             const { id } = req.params;
-            const item = await Company.findById(id).exec();
+            const item = await Museum.findById(id).exec();
             if (item === undefined || item === null) {
-                throw new APIError(404, `Company with id: ${id} not found!`);
+                throw new APIError(404, `Museum with id: ${id} not found!`);
             }
             return res.status(200).json(item);
         } catch (err) {
-            return handleAPIError(err.status || 500, err.message || 'Some error occurred while retrieving companies', next);
+            return handleAPIError(err.status || 500, err.message || 'Some error occurred while retrieving musea', next);
         }
     }
 
     // ViewModel for Insert / Create
     create = (req, res) => {
         const vm = {
-            companies: [],
+            musea: [],
         };
         return res.status(200).json(vm);
     }
@@ -65,15 +65,15 @@ class CompanyController {
     // Store / Create the new model
     store = async (req, res, next) => {
         try {
-            const companyCreate = new Company({
+            const museumCreate = new Museum({
                 title: req.body.title,
                 synopsis: req.body.synopsis,
                 body: req.body.body,
             });
-            const company = await companyCreate.save();
-            return res.status(201).json(company);
+            const museum = await museumCreate.save();
+            return res.status(201).json(museum);
         } catch (err) {
-            return handleAPIError(err.status || 500, err.message || 'Some error occurred while saving the Company!', next);
+            return handleAPIError(err.status || 500, err.message || 'Some error occurred while saving the Museum!', next);
         }
     }
 
@@ -82,19 +82,19 @@ class CompanyController {
         const { id } = req.params;
 
         try {
-            const company = await Company.findById(id).exec();
+            const museum = await Museum.findById(id).exec();
 
-            if (!company) {
+            if (!museum) {
                 throw new APIError(404, `Category with id: ${id} not found!`);
             } else {
                 const vm = {
-                    company,
-                    companies: [],
+                    museum,
+                    musea: [],
                 };
                 return res.status(200).json(vm);
             }
         } catch (err) {
-            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Company with id: ${id}!`, next);
+            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Museum with id: ${id}!`, next);
         }
     }
 
@@ -103,18 +103,18 @@ class CompanyController {
         const { id } = req.params;
 
         try {
-            const companyUpdate = req.body;
-            const company = await Company.findOneAndUpdate(
-                { _id: id }, companyUpdate, { new: true },
+            const museumUpdate = req.body;
+            const museum = await Museum.findOneAndUpdate(
+                { _id: id }, museumUpdate, { new: true },
             )
                 .exec();
 
-            if (!company) {
+            if (!museum) {
                 throw new APIError(404, `Category with id: ${id} not found!`);
             }
-            return res.status(200).json(company);
+            return res.status(200).json(museum);
         } catch (err) {
-            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Company with id: ${id}!`, next);
+            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Museum with id: ${id}!`, next);
         }
     }
 
@@ -123,17 +123,17 @@ class CompanyController {
         const { id } = req.params;
 
         try {
-            const company = await Company.findOneAndRemove({ _id: id });
+            const museum = await Museum.findOneAndRemove({ _id: id });
 
-            if (!company) {
-                throw new APIError(404, `Company with id: ${id} not found!`);
+            if (!museum) {
+                throw new APIError(404, `Museum with id: ${id} not found!`);
             } else {
-                return res.status(200).json({ message: `Successful deleted the Company with id: ${id}!` });
+                return res.status(200).json({ message: `Successful deleted the Museum with id: ${id}!` });
             }
         } catch (err) {
-            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Company with id: ${id}!`, next);
+            return handleAPIError(err.status || 500, err.message || `Some error occurred while deleting the Museum with id: ${id}!`, next);
         }
     }
 }
 
-export default CompanyController;
+export default MuseumController;

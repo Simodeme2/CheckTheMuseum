@@ -13,7 +13,7 @@ Import the internal libraries:
 - User
 */
 import { logger } from '../../../utilities';
-import { Blog, Category, Post, User, Company } from './schemas';
+import { Blog, Category, Post, User, Company, Order, Museum } from './schemas';
 
 class Seeder {
     constructor() {
@@ -22,6 +22,8 @@ class Seeder {
         this.posts = [];
         this.users = [];
         this.companies = [];
+        this.order = [];
+        this.musea = [];
     }
 
     blogCreate = async (title, description) => {
@@ -116,7 +118,41 @@ class Seeder {
         }
     }
 
+    orderCreate = async (name, amount) => {
+        const orderDetail = {
+            name,
+            amount,
+            userId: this.getRandomUser(),
+            // museumId: this.getRandomMuseum(),
+        };
+        const order = new Order(orderDetail);
 
+        try {
+            const newOrder = await order.save();
+            this.orders.push(newOrder);
+
+            logger.log({ level: 'info', message: `Order created with id: ${newOrder.id}!` });
+        } catch (err) {
+            logger.log({ level: 'info', message: `An error occurred when creating a order: ${err}!` });
+        }
+    }
+
+    museumCreate = async (name, location) => {
+        const museumDetail = {
+            name,
+            location,
+        };
+        const museum = new Museum(museumDetail);
+
+        try {
+            const newMuseum = await museum.save();
+            this.musea.push(newMuseum);
+
+            logger.log({ level: 'info', message: `Museum created with id: ${newMuseum.id}!` });
+        } catch (err) {
+            logger.log({ level: 'info', message: `An error occurred when creating a museum: ${err}!` });
+        }
+    }
 
     createBlogs = async () => {
         await Promise.all([
@@ -162,6 +198,19 @@ class Seeder {
             (async () => this.companyCreate(faker.company.companyName(), faker.lorem.sentence()))(),
             (async () => this.companyCreate(faker.company.companyName(), faker.lorem.sentence()))(),
             (async () => this.companyCreate(faker.company.companyName(), faker.lorem.sentence()))(),
+            (async () => this.companyCreate(faker.company.companyName(), faker.lorem.sentence()))(),
+            (async () => this.companyCreate(faker.company.companyName(), faker.lorem.sentence()))(),
+            (async () => this.companyCreate(faker.company.companyName(), faker.lorem.sentence()))(),
+        ]);
+    }
+
+    createOrders = async () => {
+        await Promise.all([
+            (async () => this.orderCreate(faker.system.fileName(), faker.random.number()))(),
+            (async () => this.orderCreate(faker.system.fileName(), faker.random.number()))(),
+            (async () => this.orderCreate(faker.system.fileName(), faker.random.number()))(),
+            (async () => this.orderCreate(faker.system.fileName(), faker.random.number()))(),
+            (async () => this.orderCreate(faker.system.fileName(), faker.random.number()))(),
         ]);
     }
 
@@ -184,6 +233,26 @@ class Seeder {
         }
         return cPosts;
     }
+
+    getRandomUser = () => {
+        let user = null;
+        if (this.users && this.users.length > 0) {
+            user = this.users[Math.round(Math.random() * (this.users.length - 1))];
+        }
+        return user;
+    }
+
+    // getRandomMuseum = () => {
+    //     let cMuseums = null;
+    //     if (this.museums && this.museums.length > 0) {
+    //         const nMuseums = Math.round(Math.random() * (this.museums.length - 1));
+    //         cMuseums = this.museums.slice(0, this.museums.length);
+    //         while (cMuseums.length > nMuseums) {
+    //             cMuseums.splice(Math.round(Math.random() * (this.museums.length - 1)), 1);
+    //         }
+    //     }
+    //     return cMuseums;
+    // }
 
     seed = async () => {
         this.categories = await Category.estimatedDocumentCount().exec().then(async (count) => {
@@ -219,6 +288,20 @@ class Seeder {
                 await this.createCompanies();
             }
             return Company.find().exec();
+        });
+
+        this.orders = await Order.estimatedDocumentCount().exec().then(async (count) => {
+            if (count === 0) {
+                await this.createOrders();
+            }
+            return Order.find().exec();
+        });
+
+        this.musea = await Museum.estimatedDocumentCount().exec().then(async (count) => {
+            if (count === 0) {
+                await this.createMusea();
+            }
+            return Museum.find().exec();
         });
     }
 }

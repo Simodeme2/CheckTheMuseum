@@ -46,12 +46,25 @@ const styles = theme => ({
  }
 });
 
-class CompanyForm extends Component {
+class OrderForm extends Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
     }
+    
+    state = {
+        categories: [],
+        order: { title: "", synopsis: "", body: "", categoryId: "", },
+    };
 
-    loadCompany = async (companyId) => {
+    componentWillMount() {
+        this.loadCategories();
+        
+        if (this.props.orderId) {            
+            this.loadOrder(this.props.orderId);
+        }
+    }
+
+    loadCategories = async () => {
         try {
             const options = {
                 method: 'GET',
@@ -59,12 +72,34 @@ class CompanyForm extends Component {
                 cache: 'default'
             };
 
-            const response = await fetch(`/api/v1/companies/${companyId}`, options);
+            const response = await fetch('/api/v1/categories', options);
+            console.log(response);
             const responseJson = await response.json();
             if (responseJson) {
                 this.setState(prevState => ({ 
                     ...prevState, 
-                    company: responseJson 
+                    categories: responseJson 
+                }));
+            }
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    loadOrder = async (orderId) => {
+        try {
+            const options = {
+                method: 'GET',
+                mode: 'cors',
+                cache: 'default'
+            };
+
+            const response = await fetch(`/api/v1/orders/${orderId}`, options);
+            const responseJson = await response.json();
+            if (responseJson) {
+                this.setState(prevState => ({ 
+                    ...prevState, 
+                    order: responseJson 
                 }));
             }
         } catch(error) {
@@ -73,17 +108,17 @@ class CompanyForm extends Component {
     }
 
     submit = (values, actions) => {
-        const { companyId } = this.props;
+        const { orderId } = this.props;
 
-        if (companyId) {  
-            this.updateCompany(companyId, values);          
+        if (orderId) {  
+            this.updateOrder(orderId, values);          
         } else {
-            this.saveCompany(values);
+            this.saveOrder(values);
         }
         
     }
 
-    saveCompany = async (companyData) => {
+    saveOrder = async (orderData) => {
         try {
             const options = {
                 method: 'POST',
@@ -91,12 +126,12 @@ class CompanyForm extends Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(companyData),
+                body: JSON.stringify(orderData),
                 mode: 'cors',
                 cache: 'default'
             };
 
-            const response = await fetch('/api/v1/companies', options);
+            const response = await fetch('/api/v1/orders', options);
             const responseJson = await response.json();
             if (responseJson) {
                 console.log(responseJson);
@@ -106,7 +141,7 @@ class CompanyForm extends Component {
         }
     }
 
-    updateCompany = async (companyId, companyData) => {
+    updateOrder = async (orderId, orderData) => {
         try {
             const options = {
                 method: 'PUT',
@@ -114,12 +149,12 @@ class CompanyForm extends Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(companyData),
+                body: JSON.stringify(orderData),
                 mode: 'cors',
                 cache: 'default'
             };
 
-            const response = await fetch(`/api/v1/companies/${companyId}`, options);
+            const response = await fetch(`/api/v1/orders/${orderId}`, options);
             const responseJson = await response.json();
             if (responseJson) {
                 console.log(responseJson);
@@ -131,7 +166,7 @@ class CompanyForm extends Component {
 
     render() {
         const { classes } = this.props;
-        const { company:values } = this.state;
+        const { order:values } = this.state;
 
         console.log(values);
 
@@ -153,4 +188,4 @@ class CompanyForm extends Component {
     }
 }
 
-export default withStyles(styles)(CompanyForm);
+export default withStyles(styles)(OrderForm);

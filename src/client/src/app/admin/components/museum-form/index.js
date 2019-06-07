@@ -46,12 +46,12 @@ const styles = theme => ({
  }
 });
 
-class CompanyForm extends Component {
+class MuseumForm extends Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
     }
 
-    loadCompany = async (companyId) => {
+    loadMuseum = async (museumId) => {
         try {
             const options = {
                 method: 'GET',
@@ -59,12 +59,12 @@ class CompanyForm extends Component {
                 cache: 'default'
             };
 
-            const response = await fetch(`/api/v1/companies/${companyId}`, options);
+            const response = await fetch(`/api/v1/musea/${museumId}`, options);
             const responseJson = await response.json();
             if (responseJson) {
                 this.setState(prevState => ({ 
                     ...prevState, 
-                    company: responseJson 
+                    museum: responseJson 
                 }));
             }
         } catch(error) {
@@ -73,17 +73,17 @@ class CompanyForm extends Component {
     }
 
     submit = (values, actions) => {
-        const { companyId } = this.props;
+        const { museumId } = this.props;
 
-        if (companyId) {  
-            this.updateCompany(companyId, values);          
+        if (museumId) {  
+            this.updateMuseum(museumId, values);          
         } else {
-            this.saveCompany(values);
+            this.saveMuseum(values);
         }
         
     }
 
-    saveCompany = async (companyData) => {
+    saveMuseum = async (museumData) => {
         try {
             const options = {
                 method: 'POST',
@@ -91,12 +91,12 @@ class CompanyForm extends Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(companyData),
+                body: JSON.stringify(museumData),
                 mode: 'cors',
                 cache: 'default'
             };
 
-            const response = await fetch('/api/v1/companies', options);
+            const response = await fetch('/api/v1/musea', options);
             const responseJson = await response.json();
             if (responseJson) {
                 console.log(responseJson);
@@ -106,7 +106,7 @@ class CompanyForm extends Component {
         }
     }
 
-    updateCompany = async (companyId, companyData) => {
+    updateMuseum = async (museumId, museumData) => {
         try {
             const options = {
                 method: 'PUT',
@@ -114,12 +114,12 @@ class CompanyForm extends Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(companyData),
+                body: JSON.stringify(museumData),
                 mode: 'cors',
                 cache: 'default'
             };
 
-            const response = await fetch(`/api/v1/companies/${companyId}`, options);
+            const response = await fetch(`/api/v1/musea/${museumId}`, options);
             const responseJson = await response.json();
             if (responseJson) {
                 console.log(responseJson);
@@ -131,7 +131,7 @@ class CompanyForm extends Component {
 
     render() {
         const { classes } = this.props;
-        const { company:values } = this.state;
+        const { museum:values } = this.state;
 
         console.log(values);
 
@@ -153,4 +153,4 @@ class CompanyForm extends Component {
     }
 }
 
-export default withStyles(styles)(CompanyForm);
+export default withStyles(styles)(MuseumForm);

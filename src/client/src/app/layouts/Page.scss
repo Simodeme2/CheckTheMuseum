@@ -1,5 +1,10 @@
 @import '../_sass/abstracts/variables';
+@import '../_sass/components/nav';
 
 body {
-  background: $color_blue;
+  background: $background_color;
+}
+
+.hidden {
+  padding: 25px;
 }

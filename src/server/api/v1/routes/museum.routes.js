@@ -1,56 +1,53 @@
 /*
 Import the internal libraries:
-- CategoryController
+- MuseumController
 */
-import {
-    CompanyController,
-} from '../controller';
+import { MuseumController } from '../controller';
 
-// Create instance of CategoryController otherwise you can't use it
-const companyController = new CompanyController();
+// Create instance of MuseumController otherwise you can't use it
+const museumController = new MuseumController();
 
-// authService -> can be used as parameter
-const initializeEndpoints = (parentRouter) => {
+const initializeEndpoints = (parentRouter, authService) => {
     /**
      * @swagger
-     * /api/v1/categories:
+     * /api/v1/musea:
      *   get:
      *     tags:
-     *       - Categories
-     *     description: Returns all categories
+     *       - Musea
+     *     description: Returns all musea
      *     produces:
      *       - application/json
      *     responses:
      *       200:
-     *         description: An array of categories
+     *         description: An array of musea
      */
-    parentRouter.get('/companies', companyController.index);
+    parentRouter.get('/musea', museumController.index);
     /**
      * @swagger
-     * /api/v1/categories/create:
+     * /api/v1/musea/create:
      *   get:
      *     tags:
-     *       - Category
-     *     description: Returns specific viewmodel such as categories
+     *       - Museum
+     *     description: Returns specific viewmodel such as musea
      *     produces:
      *       - application/json
      *     responses:
      *       200:
      *         description: Create post
      */
-    parentRouter.get('/companies/create/', companyController.create);
+    parentRouter.get('/musea/create/', museumController.create);
     /**
      * @swagger
-     * /api/v1/categories/{id}:
+     * /api/v1/musea/{id}:
      *   get:
      *     tags:
-     *       - Category
+     *       - Museum
      *     description: Returns specific post
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Museum id
      *         in: path
      *         required: true
      *         type: string
@@ -58,90 +55,90 @@ const initializeEndpoints = (parentRouter) => {
      *       200:
      *         description: Get post by id
      */
-    parentRouter.get('/companies/:id', companyController.show);
+    parentRouter.get('/musea/:id', museumController.show);
     /**
      * @swagger
-     * /api/v1/categories:
+     * /api/v1/musea:
      *   post:
      *     tags:
-     *       - Category
+     *       - Museum
      *     description: Save post
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: post
-     *         description: Category object
+     *         description: Museum object
      *         in: body
      *         required: true
      *     responses:
      *       200:
      *         description: Return saved post
      */
-    parentRouter.post('/companies', companyController.store);
+    parentRouter.post('/musea', museumController.store);
     /**
      * @swagger
-     * /api/v1/categories/{id}/edit:
+     * /api/v1/musea/{id}/edit:
      *   get:
      *     tags:
-     *       - Category
-     *     description: Returns specific viewmodel such as post, categories
+     *       - Museum
+     *     description: Returns specific viewmodel such as post, musea
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Museum id
      *         in: path
      *         required: true
      *         type: string
      *     responses:
      *       200:
-     *         description: Edit post by id
+     *         description: Edit museum by id
      */
-    parentRouter.get('/companies/:id/edit', companyController.edit);
+    parentRouter.get('/musea/:id/edit', museumController.edit);
     /**
      * @swagger
-     * /api/v1/categories/{id}:
+     * /api/v1/musea/{id}:
      *   put:
      *     tags:
-     *       - Category
+     *       - Museum
      *     description: Update specific post detail
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Museum id
      *         in: path
      *         required: true
      *         type: string
-     *       - name: post object
-     *         description: post data
+     *       - name: nlog object
+     *         description: museum data
      *         in: body
      *         required: true
      *     responses:
      *       200:
-     *         description: Update post
+     *         description: Update museum
      */
-    parentRouter.put('/companies/:id', companyController.update);
+    parentRouter.put('/musea/:id', museumController.update);
     /**
      * @swagger
-     * /api/v1/categories/{id}:
+     * /api/v1/musea/{id}:
      *   delete:
      *     tags:
-     *       - Category
-     *     description: Delete specific post detail
+     *       - Museum
+     *     description: Delete specific museum
      *     produces:
      *       - application/json
      *     parameters:
      *       - name: id
-     *         description: Category id
+     *         description: Museum id
      *         in: path
      *         required: true
      *         type: string
      *     responses:
      *       200:
-     *         description: Delete post
+     *         description: Delete museum
      */
-    parentRouter.delete('/companies/:id', companyController.destroy);
+    parentRouter.delete('/musea/:id', museumController.destroy);
 };
 
 export default initializeEndpoints;

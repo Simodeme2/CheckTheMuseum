@@ -3,6 +3,7 @@ Import extenal libraries
 */
 import React, { Component } from 'react';
 import { Redirect, Route } from 'react-router-dom';
+import Api from '../../../services';
 
 /*
 Layout
@@ -20,6 +21,29 @@ const tabs = [
 ];
 
 class CompaniesOverviewPage extends Component {
+
+  state = {
+      musea: [],
+  };
+
+  componentWillMount() {
+      this.loadMusea();
+  }
+
+  loadMusea = () => {
+      Api.museaLocations()
+          .then((data) => {
+              this.setState(prevState => ({
+                  ...prevState,
+                  musea: data
+              }));
+              console.log(this.state.musea);
+          })
+          .catch((error) => {
+              console.log(error);
+          });
+  }
+
   render() {
     const { children } = this.props;
 
